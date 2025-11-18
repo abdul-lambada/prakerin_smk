@@ -17,6 +17,7 @@
     <div id="wrapper">
 
         <!-- Sidebar -->
+        @php($role = auth()->user()->role ?? null)
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
@@ -29,12 +30,151 @@
 
             <hr class="sidebar-divider my-0">
 
+            <!-- Menu umum -->
             <li class="nav-item">
                 <a class="nav-link" href="{{ route('dashboard.index') }}">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span>
                 </a>
             </li>
+
+            @if($role === 'admin')
+                <hr class="sidebar-divider">
+                <div class="sidebar-heading">Manajemen</div>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="#">
+                        <i class="fas fa-users fa-fw"></i>
+                        <span>Data Siswa</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">
+                        <i class="fas fa-chalkboard-teacher fa-fw"></i>
+                        <span>Data Pembimbing</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">
+                        <i class="fas fa-user-tie fa-fw"></i>
+                        <span>Data User</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">
+                        <i class="fas fa-industry fa-fw"></i>
+                        <span>Data Industri</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">
+                        <i class="fas fa-school fa-fw"></i>
+                        <span>Jurusan &amp; Kelas</span>
+                    </a>
+                </li>
+
+                <hr class="sidebar-divider">
+                <div class="sidebar-heading">PKL</div>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="#">
+                        <i class="fas fa-briefcase fa-fw"></i>
+                        <span>Penempatan PKL</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">
+                        <i class="fas fa-clipboard-check fa-fw"></i>
+                        <span>Nilai &amp; Sidang</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">
+                        <i class="fas fa-file-alt fa-fw"></i>
+                        <span>Laporan &amp; Jurnal</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">
+                        <i class="fas fa-bullhorn fa-fw"></i>
+                        <span>Info / Pengumuman</span>
+                    </a>
+                </li>
+            @elseif($role === 'pembimbing')
+                <hr class="sidebar-divider">
+                <div class="sidebar-heading">Pembimbing</div>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="#">
+                        <i class="fas fa-user-graduate fa-fw"></i>
+                        <span>Siswa Bimbingan</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">
+                        <i class="fas fa-book-open fa-fw"></i>
+                        <span>Monitoring &amp; Bimbingan</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">
+                        <i class="fas fa-clipboard-check fa-fw"></i>
+                        <span>Penilaian PKL</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">
+                        <i class="fas fa-file-alt fa-fw"></i>
+                        <span>Laporan &amp; Sidang</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">
+                        <i class="fas fa-bullhorn fa-fw"></i>
+                        <span>Info / Pengumuman</span>
+                    </a>
+                </li>
+            @elseif($role === 'siswa')
+                <hr class="sidebar-divider">
+                <div class="sidebar-heading">Siswa</div>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="#">
+                        <i class="fas fa-briefcase fa-fw"></i>
+                        <span>Tempat PKL</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">
+                        <i class="fas fa-clipboard-check fa-fw"></i>
+                        <span>Absensi</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">
+                        <i class="fas fa-book fa-fw"></i>
+                        <span>Jurnal Harian</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">
+                        <i class="fas fa-comments fa-fw"></i>
+                        <span>Bimbingan</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">
+                        <i class="fas fa-file-alt fa-fw"></i>
+                        <span>Laporan PKL</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">
+                        <i class="fas fa-bullhorn fa-fw"></i>
+                        <span>Info / Pengumuman</span>
+                    </a>
+                </li>
+            @endif
 
             <hr class="sidebar-divider d-none d-md-block">
 
