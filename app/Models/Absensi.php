@@ -21,6 +21,7 @@ class Absensi extends Model
         'jam_keluar',
         'status',
         'keterangan',
+        'foto',
     ];
 
     protected $casts = [
