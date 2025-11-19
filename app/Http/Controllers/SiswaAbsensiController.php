@@ -8,6 +8,7 @@ use App\Models\Tempat;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rule;
 
 class SiswaAbsensiController extends Controller
 {
@@ -46,7 +47,12 @@ class SiswaAbsensiController extends Controller
             'jam_keluar' => 'nullable|string|max:10',
             'status'     => 'required|string|in:hadir,izin,sakit,alpha',
             'keterangan' => 'nullable|string|max:100',
-            'foto'       => 'nullable|image|max:2048',
+            'foto'       => [
+                'nullable',
+                'image',
+                'max:2048',
+                Rule::requiredIf($request->status !== 'alpha'),
+            ],
         ]);
 
         $data['nis_siswa'] = $siswa->nis_siswa;

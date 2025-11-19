@@ -11,6 +11,7 @@ use App\Models\Absensi;
 use App\Models\Jurnal;
 use App\Models\Laporan;
 use App\Models\Info;
+use App\Models\Bimbingan;
 
 class DashboardController extends Controller
 {
@@ -100,6 +101,10 @@ class DashboardController extends Controller
 
         $total_laporan = Laporan::whereIn('kd_tempat', $tempatIds)->count();
 
+        $unread_bimbingan = Bimbingan::whereIn('kd_tempat', $tempatIds)
+            ->where('is_read_pembimbing', false)
+            ->count();
+
         $latest_infos = Info::orderBy('tanggal', 'desc')->limit(5)->get();
 
         return view('dashboard.pembimbing', [
@@ -108,6 +113,7 @@ class DashboardController extends Controller
             'absensi_hari_ini'      => $absensi_hari_ini,
             'jurnal_hari_ini'       => $jurnal_hari_ini,
             'total_laporan'         => $total_laporan,
+            'unread_bimbingan'      => $unread_bimbingan,
             'latest_infos'          => $latest_infos,
         ]);
     }
@@ -138,6 +144,11 @@ class DashboardController extends Controller
 
         $total_laporan_saya = Laporan::where('nis_siswa', $nis)->count();
 
+        $unread_bimbingan_saya = Bimbingan::where('nis_siswa', $nis)
+            ->where('is_read_siswa', false)
+            ->whereNotNull('nip')
+            ->count();
+
         $latest_infos = Info::orderBy('tanggal', 'desc')->limit(5)->get();
 
         return view('dashboard.siswa', [
@@ -146,6 +157,7 @@ class DashboardController extends Controller
             'absensi_hari_ini_saya'  => $absensi_hari_ini_saya,
             'jurnal_hari_ini_saya'   => $jurnal_hari_ini_saya,
             'total_laporan_saya'     => $total_laporan_saya,
+            'unread_bimbingan_saya'  => $unread_bimbingan_saya,
             'latest_infos'           => $latest_infos,
         ]);
     }

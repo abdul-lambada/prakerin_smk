@@ -21,10 +21,14 @@ class Bimbingan extends Model
         'judul',
         'catatan',
         'file',
+        'is_read_siswa',
+        'is_read_pembimbing',
     ];
 
     protected $casts = [
-        'tanggal' => 'date',
+        'tanggal'          => 'date',
+        'is_read_siswa'    => 'boolean',
+        'is_read_pembimbing'=> 'boolean',
     ];
 
     public function tempat()

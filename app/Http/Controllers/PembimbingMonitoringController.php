@@ -6,6 +6,7 @@ use App\Models\Pembimbing;
 use App\Models\Tempat;
 use App\Models\Absensi;
 use App\Models\Jurnal;
+use App\Models\Bimbingan;
 use Illuminate\Support\Facades\Auth;
 
 class PembimbingMonitoringController extends Controller
@@ -29,6 +30,12 @@ class PembimbingMonitoringController extends Controller
             ->orderByDesc('tanggal')
             ->get();
 
-        return view('pembimbing.monitoring.index', compact('pembimbing', 'absensis', 'jurnals'));
+        $unreadBimbingan = Bimbingan::whereIn('kd_tempat', $tempatIds)
+            ->where('is_read_pembimbing', false)
+            ->selectRaw('kd_tempat, COUNT(*) as unread')
+            ->groupBy('kd_tempat')
+            ->pluck('unread', 'kd_tempat');
+
+        return view('pembimbing.monitoring.index', compact('pembimbing', 'absensis', 'jurnals', 'unreadBimbingan'));
     }
 }

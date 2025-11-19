@@ -36,6 +36,7 @@
                         <th>Jam Mulai</th>
                         <th>Jam Selesai</th>
                         <th>Kegiatan</th>
+                        <th>Foto Jurnal</th>
                         <th>Aksi</th>
                     </tr>
                 </thead>
@@ -48,6 +49,15 @@
                             <td>{{ $item->jam_mulai }}</td>
                             <td>{{ $item->jam_selesai }}</td>
                             <td>{{ $item->kegiatan }}</td>
+                            <td>
+                                @if($item->foto)
+                                    <a href="{{ asset('storage/'.$item->foto) }}" target="_blank" class="btn btn-sm btn-secondary">
+                                        <i class="fas fa-file-image"></i> Lihat
+                                    </a>
+                                @else
+                                    -
+                                @endif
+                            </td>
                             <td class="text-nowrap">
                                 <a href="{{ route('admin.jurnal.edit', $item) }}" class="btn btn-sm btn-warning">
                                     <i class="fas fa-edit"></i>

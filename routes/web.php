@@ -20,6 +20,7 @@ use App\Http\Controllers\PembimbingMonitoringController;
 use App\Http\Controllers\PembimbingNilaiController;
 use App\Http\Controllers\PembimbingLaporanSidangController;
 use App\Http\Controllers\PembimbingInfoController;
+use App\Http\Controllers\PembimbingBimbinganController;
 use App\Http\Controllers\SiswaTempatController;
 use App\Http\Controllers\SiswaAbsensiController;
 use App\Http\Controllers\SiswaJurnalController;
@@ -83,6 +84,8 @@ Route::middleware('auth')->group(function () {
         Route::post('/pembimbing/nilai/{tempat}', [PembimbingNilaiController::class, 'save'])->name('pembimbing.nilai.save');
         Route::get('/pembimbing/laporan-sidang', [PembimbingLaporanSidangController::class, 'index'])->name('pembimbing.laporan-sidang.index');
         Route::get('/pembimbing/info', [PembimbingInfoController::class, 'index'])->name('pembimbing.info.index');
+        Route::get('/pembimbing/bimbingan/{tempat}', [PembimbingBimbinganController::class, 'show'])->name('pembimbing.bimbingan.show');
+        Route::post('/pembimbing/bimbingan/{tempat}', [PembimbingBimbinganController::class, 'store'])->name('pembimbing.bimbingan.store');
     });
 
     Route::middleware('role:siswa')->group(function () {
@@ -98,6 +101,8 @@ Route::middleware('auth')->group(function () {
         Route::get('/siswa/laporan/create', [SiswaLaporanController::class, 'create'])->name('siswa.laporan.create');
         Route::post('/siswa/laporan', [SiswaLaporanController::class, 'store'])->name('siswa.laporan.store');
         Route::get('/siswa/bimbingan', [SiswaBimbinganController::class, 'index'])->name('siswa.bimbingan.index');
+        Route::get('/siswa/bimbingan/{tempat}', [SiswaBimbinganController::class, 'show'])->name('siswa.bimbingan.show');
+        Route::post('/siswa/bimbingan/{tempat}', [SiswaBimbinganController::class, 'store'])->name('siswa.bimbingan.store');
         Route::get('/siswa/info', [SiswaInfoController::class, 'index'])->name('siswa.info.index');
     });
 });

@@ -21,6 +21,7 @@ class Jurnal extends Model
         'jam_selesai',
         'kegiatan',
         'deskripsi',
+        'foto',
     ];
 
     protected $casts = [

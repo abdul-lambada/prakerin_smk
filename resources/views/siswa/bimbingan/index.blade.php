@@ -8,42 +8,55 @@
 
 @section('content')
 <h1 class="h3 mb-4 text-gray-800">Bimbingan PKL Saya</h1>
-<p class="mb-3">Riwayat bimbingan untuk {{ $siswa->nama_lengkap }}.</p>
+<p class="mb-3">Pilih tempat PKL untuk membuka ruang bimbingan dengan pembimbing.</p>
 
 <div class="card shadow mb-4">
     <div class="card-header py-3 d-flex justify-content-between align-items-center">
-        <h6 class="m-0 font-weight-bold text-primary">Riwayat Bimbingan</h6>
+        <h6 class="m-0 font-weight-bold text-primary">Daftar Tempat PKL</h6>
     </div>
     <div class="card-body">
         <div class="table-responsive">
             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                 <thead>
                     <tr>
-                        <th>Tanggal</th>
-                        <th>Tempat / Industri</th>
-                        <th>Judul</th>
-                        <th>Catatan</th>
-                        <th>Lampiran</th>
+                        <th>Kode Tempat</th>
+                        <th>Industri</th>
+                        <th>Pembimbing</th>
+                        <th>Tanggal Mulai</th>
+                        <th>Tahun</th>
+                        <th>Revisi Laporan</th>
+                        <th>Belum Dibaca</th>
+                        <th>Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($bimbingans as $item)
+                    @foreach($tempats as $item)
                         <tr>
+                            <td>{{ $item->kd_tempat }}</td>
+                            <td>{{ optional($item->industri)->nama_industri }}</td>
+                            <td>{{ optional(optional($item->pembimbing)->user)->name }}</td>
                             <td>{{ optional($item->tanggal)->format('d-m-Y') }}</td>
+                            <td>{{ $item->tahun }}</td>
                             <td>
-                                {{ optional($item->tempat)->kd_tempat }} -
-                                {{ optional(optional($item->tempat)->industri)->nama_industri }}
-                            </td>
-                            <td>{{ $item->judul }}</td>
-                            <td>{{ $item->catatan }}</td>
-                            <td>
-                                @if($item->file)
-                                    <a href="{{ asset('storage/'.$item->file) }}" target="_blank">
-                                        <i class="fas fa-paperclip"></i> Download
-                                    </a>
+                                @php($revisi = $item->revisi_laporan_count ?? 0)
+                                @if($revisi > 0)
+                                    <span class="badge badge-info">{{ $revisi }}x Revisi</span>
                                 @else
-                                    -
+                                    <span class="text-muted">-</span>
                                 @endif
+                            </td>
+                            <td>
+                                @php($unread = $item->unread_from_pembimbing_count ?? 0)
+                                @if($unread > 0)
+                                    <span class="badge badge-danger">{{ $unread }} pesan baru</span>
+                                @else
+                                    <span class="text-muted">-</span>
+                                @endif
+                            </td>
+                            <td class="text-nowrap">
+                                <a href="{{ route('siswa.bimbingan.show', $item) }}" class="btn btn-sm btn-primary">
+                                    <i class="fas fa-comments"></i> Buka Bimbingan
+                                </a>
                             </td>
                         </tr>
                     @endforeach

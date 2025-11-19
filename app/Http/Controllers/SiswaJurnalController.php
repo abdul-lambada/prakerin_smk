@@ -45,9 +45,14 @@ class SiswaJurnalController extends Controller
             'jam_selesai' => 'nullable|string|max:10',
             'kegiatan'    => 'required|string|max:100',
             'deskripsi'   => 'nullable|string',
+            'foto'        => 'required|image|max:2048',
         ]);
 
         $data['nis_siswa'] = $siswa->nis_siswa;
+
+        if ($request->hasFile('foto')) {
+            $data['foto'] = $request->file('foto')->store('jurnal', 'public');
+        }
 
         $tempatValid = Tempat::where('kd_tempat', $data['kd_tempat'])
             ->where('nis_siswa', $siswa->nis_siswa)

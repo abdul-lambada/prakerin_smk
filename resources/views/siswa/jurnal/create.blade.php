@@ -7,7 +7,7 @@
 
 <div class="card shadow mb-4">
     <div class="card-body">
-        <form method="POST" action="{{ route('siswa.jurnal.store') }}">
+        <form method="POST" action="{{ route('siswa.jurnal.store') }}" enctype="multipart/form-data">
             @csrf
 
             <div class="form-group">
@@ -62,6 +62,15 @@
                 <textarea name="deskripsi" rows="4" class="form-control @error('deskripsi') is-invalid @enderror">{{ old('deskripsi') }}</textarea>
                 @error('deskripsi')
                     <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
+                @enderror
+            </div>
+
+            <div class="form-group">
+                <label>Foto Jurnal Kertas (wajib)</label>
+                <input type="file" name="foto" accept="image/*" capture="environment" class="form-control-file @error('foto') is-invalid @enderror" required>
+                <small class="form-text text-muted">Foto halaman jurnal kertas yang sudah ditandatangani pembimbing lapangan (DU/DI).</small>
+                @error('foto')
+                    <span class="invalid-feedback d-block" role="alert"><strong>{{ $message }}</strong></span>
                 @enderror
             </div>
 

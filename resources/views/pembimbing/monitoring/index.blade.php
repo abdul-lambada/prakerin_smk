@@ -132,6 +132,20 @@
                                     data-keterangan="{{ $item->keterangan }}">
                                     <i class="fas fa-search"></i> Detail
                                 </button>
+                                @if($item->foto)
+                                    <a href="{{ asset('storage/'.$item->foto) }}" target="_blank" class="btn btn-sm btn-secondary mt-1">
+                                        <i class="fas fa-camera"></i>
+                                    </a>
+                                @endif
+                                @if($item->tempat)
+                                    @php($unread = $unreadBimbingan[$item->kd_tempat] ?? 0)
+                                    <a href="{{ route('pembimbing.bimbingan.show', $item->tempat) }}" class="btn btn-sm btn-primary mt-1 position-relative">
+                                        <i class="fas fa-comments"></i>
+                                        @if($unread > 0)
+                                            <span class="badge badge-danger" style="position:absolute; top:-5px; right:-5px; font-size:0.7rem;">{{ $unread }}</span>
+                                        @endif
+                                    </a>
+                                @endif
                             </td>
                         </tr>
                     @endforeach
@@ -180,6 +194,16 @@
                                     data-deskripsi="{{ $item->deskripsi }}">
                                     <i class="fas fa-search"></i> Detail
                                 </button>
+                                @if($item->foto)
+                                    <a href="{{ asset('storage/'.$item->foto) }}" target="_blank" class="btn btn-sm btn-secondary mt-1">
+                                        <i class="fas fa-file-image"></i>
+                                    </a>
+                                @endif
+                                @if($item->tempat)
+                                    <a href="{{ route('pembimbing.bimbingan.show', $item->tempat) }}" class="btn btn-sm btn-primary mt-1">
+                                        <i class="fas fa-comments"></i>
+                                    </a>
+                                @endif
                             </td>
                         </tr>
                     @endforeach

@@ -71,9 +71,9 @@
             </div>
 
             <div class="form-group">
-                <label>Foto (opsional)</label>
+                <label>Foto</label>
                 <input type="file" name="foto" accept="image/*" capture="user" class="form-control-file @error('foto') is-invalid @enderror">
-                <small class="form-text text-muted">Anda dapat mengambil foto selfie langsung dari kamera (mobile) atau upload file gambar.</small>
+                <small class="form-text text-muted">Foto wajib untuk status Hadir, Izin, dan Sakit (selfie atau bukti). Untuk status Alpha, foto bersifat opsional.</small>
                 @error('foto')
                     <span class="invalid-feedback d-block" role="alert"><strong>{{ $message }}</strong></span>
                 @enderror

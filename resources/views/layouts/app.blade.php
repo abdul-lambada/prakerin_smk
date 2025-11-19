@@ -116,12 +116,6 @@
                         <span>Monitoring &amp; Bimbingan</span>
                     </a>
                 </li>
-                <li class="nav-item {{ request()->routeIs('pembimbing.nilai.*') ? 'active' : '' }}">
-                    <a class="nav-link" href="{{ route('pembimbing.nilai.index') }}">
-                        <i class="fas fa-clipboard-check fa-fw"></i>
-                        <span>Penilaian PKL</span>
-                    </a>
-                </li>
                 <li class="nav-item {{ request()->routeIs('pembimbing.laporan-sidang.*') ? 'active' : '' }}">
                     <a class="nav-link" href="{{ route('pembimbing.laporan-sidang.index') }}">
                         <i class="fas fa-file-alt fa-fw"></i>
