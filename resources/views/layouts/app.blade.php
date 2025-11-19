@@ -209,10 +209,14 @@
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">
                                     {{ auth()->user()->name ?? auth()->user()->username ?? 'User' }}
                                 </span>
-                                <i class="fas fa-user-circle fa-lg text-gray-400"></i>
+                                @if(auth()->user()->foto)
+                                    <img src="{{ asset('storage/'.auth()->user()->foto) }}" class="img-profile rounded-circle" style="height: 32px; width: 32px; object-fit: cover;">
+                                @else
+                                    <i class="fas fa-user-circle fa-lg text-gray-400"></i>
+                                @endif
                             </a>
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="#">
+                                <a class="dropdown-item" href="{{ route('profile.show') }}">
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Profile
                                 </a>
