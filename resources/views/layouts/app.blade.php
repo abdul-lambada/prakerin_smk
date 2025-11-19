@@ -42,31 +42,31 @@
                 <hr class="sidebar-divider">
                 <div class="sidebar-heading">Manajemen</div>
 
-                <li class="nav-item">
+                <li class="nav-item {{ request()->routeIs('admin.siswa.*') ? 'active' : '' }}">
                     <a class="nav-link" href="{{ route('admin.siswa.index') }}">
                         <i class="fas fa-users fa-fw"></i>
                         <span>Data Siswa</span>
                     </a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item {{ request()->routeIs('admin.pembimbing.*') ? 'active' : '' }}">
                     <a class="nav-link" href="{{ route('admin.pembimbing.index') }}">
                         <i class="fas fa-chalkboard-teacher fa-fw"></i>
                         <span>Data Pembimbing</span>
                     </a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item {{ request()->routeIs('admin.user.*') ? 'active' : '' }}">
                     <a class="nav-link" href="{{ route('admin.user.index') }}">
                         <i class="fas fa-user-tie fa-fw"></i>
                         <span>Data User</span>
                     </a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item {{ request()->routeIs('admin.industri.*') ? 'active' : '' }}">
                     <a class="nav-link" href="{{ route('admin.industri.index') }}">
                         <i class="fas fa-industry fa-fw"></i>
                         <span>Data Industri</span>
                     </a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item {{ request()->routeIs('admin.jurusan.*') || request()->routeIs('admin.kelas.*') ? 'active' : '' }}">
                     <a class="nav-link" href="{{ route('admin.jurusan.index') }}">
                         <i class="fas fa-school fa-fw"></i>
                         <span>Jurusan &amp; Kelas</span>
@@ -76,25 +76,25 @@
                 <hr class="sidebar-divider">
                 <div class="sidebar-heading">PKL</div>
 
-                <li class="nav-item">
+                <li class="nav-item {{ request()->routeIs('admin.tempat.*') ? 'active' : '' }}">
                     <a class="nav-link" href="{{ route('admin.tempat.index') }}">
                         <i class="fas fa-briefcase fa-fw"></i>
                         <span>Penempatan PKL</span>
                     </a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item {{ request()->routeIs('admin.nilai.*') || request()->routeIs('admin.sidang.*') ? 'active' : '' }}">
                     <a class="nav-link" href="{{ route('admin.nilai.index') }}">
                         <i class="fas fa-clipboard-check fa-fw"></i>
                         <span>Nilai &amp; Sidang</span>
                     </a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item {{ request()->routeIs('admin.laporan.*') || request()->routeIs('admin.jurnal.*') || request()->routeIs('admin.absensi.*') ? 'active' : '' }}">
                     <a class="nav-link" href="{{ route('admin.laporan.index') }}">
                         <i class="fas fa-file-alt fa-fw"></i>
                         <span>Laporan Jurnal &amp; Absensi</span>
                     </a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item {{ request()->routeIs('admin.info.*') ? 'active' : '' }}">
                     <a class="nav-link" href="{{ route('admin.info.index') }}">
                         <i class="fas fa-bullhorn fa-fw"></i>
                         <span>Info / Pengumuman</span>

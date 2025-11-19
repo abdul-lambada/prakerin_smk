@@ -16,9 +16,14 @@
 <div class="card shadow mb-4">
     <div class="card-header py-3 d-flex justify-content-between align-items-center">
         <h6 class="m-0 font-weight-bold text-primary">Daftar Jurnal</h6>
-        <a href="{{ route('admin.jurnal.create') }}" class="btn btn-primary btn-sm">
-            <i class="fas fa-plus"></i> Tambah Jurnal
-        </a>
+        <div>
+            <a href="{{ route('admin.laporan.index') }}" class="btn btn-secondary btn-sm border mr-2">
+                <i class="fas fa-file-alt"></i> Kembali ke Laporan
+            </a>
+            <a href="{{ route('admin.jurnal.create') }}" class="btn btn-primary btn-sm">
+                <i class="fas fa-plus"></i> Tambah Jurnal
+            </a>
+        </div>
     </div>
     <div class="card-body">
         <div class="table-responsive">

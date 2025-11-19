@@ -16,9 +16,15 @@
 <div class="card shadow mb-4">
     <div class="card-header py-3 d-flex justify-content-between align-items-center">
         <h6 class="m-0 font-weight-bold text-primary">Daftar Sidang PKL</h6>
-        <a href="{{ route('admin.sidang.create') }}" class="btn btn-primary btn-sm">
-            <i class="fas fa-plus"></i> Tambah Sidang
-        </a>
+        <div>
+
+            <a href="{{ route('admin.sidang.index') }}" class="btn btn-secondary btn-sm border mr-2">
+                    <i class="fas fa-gavel"></i> Data Nilai
+                </a>
+            <a href="{{ route('admin.sidang.create') }}" class="btn btn-primary btn-sm">
+                <i class="fas fa-plus"></i> Tambah Sidang
+            </a>
+        </div>
     </div>
     <div class="card-body">
         <div class="table-responsive">
