@@ -20,6 +20,12 @@ use App\Http\Controllers\PembimbingMonitoringController;
 use App\Http\Controllers\PembimbingNilaiController;
 use App\Http\Controllers\PembimbingLaporanSidangController;
 use App\Http\Controllers\PembimbingInfoController;
+use App\Http\Controllers\SiswaTempatController;
+use App\Http\Controllers\SiswaAbsensiController;
+use App\Http\Controllers\SiswaJurnalController;
+use App\Http\Controllers\SiswaLaporanController;
+use App\Http\Controllers\SiswaBimbinganController;
+use App\Http\Controllers\SiswaInfoController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -81,5 +87,17 @@ Route::middleware('auth')->group(function () {
 
     Route::middleware('role:siswa')->group(function () {
         Route::get('/dashboard/siswa', [DashboardController::class, 'siswa'])->name('dashboard.siswa');
+        Route::get('/siswa/tempat', [SiswaTempatController::class, 'index'])->name('siswa.tempat.index');
+        Route::get('/siswa/absensi', [SiswaAbsensiController::class, 'index'])->name('siswa.absensi.index');
+        Route::get('/siswa/absensi/create', [SiswaAbsensiController::class, 'create'])->name('siswa.absensi.create');
+        Route::post('/siswa/absensi', [SiswaAbsensiController::class, 'store'])->name('siswa.absensi.store');
+        Route::get('/siswa/jurnal', [SiswaJurnalController::class, 'index'])->name('siswa.jurnal.index');
+        Route::get('/siswa/jurnal/create', [SiswaJurnalController::class, 'create'])->name('siswa.jurnal.create');
+        Route::post('/siswa/jurnal', [SiswaJurnalController::class, 'store'])->name('siswa.jurnal.store');
+        Route::get('/siswa/laporan', [SiswaLaporanController::class, 'index'])->name('siswa.laporan.index');
+        Route::get('/siswa/laporan/create', [SiswaLaporanController::class, 'create'])->name('siswa.laporan.create');
+        Route::post('/siswa/laporan', [SiswaLaporanController::class, 'store'])->name('siswa.laporan.store');
+        Route::get('/siswa/bimbingan', [SiswaBimbinganController::class, 'index'])->name('siswa.bimbingan.index');
+        Route::get('/siswa/info', [SiswaInfoController::class, 'index'])->name('siswa.info.index');
     });
 });

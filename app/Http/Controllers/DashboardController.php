@@ -114,6 +114,39 @@ class DashboardController extends Controller
 
     public function siswa()
     {
-        return view('dashboard.siswa');
+        $user = Auth::user();
+
+        $siswa = Siswa::where('user_id', $user->id)->first();
+
+        if (! $siswa) {
+            abort(403, 'Akun siswa belum terhubung dengan data siswa.');
+        }
+
+        $nis = $siswa->nis_siswa;
+
+        $total_tempat_saya = Tempat::where('nis_siswa', $nis)->count();
+
+        $today = now()->toDateString();
+
+        $absensi_hari_ini_saya = Absensi::where('nis_siswa', $nis)
+            ->whereDate('tanggal', $today)
+            ->count();
+
+        $jurnal_hari_ini_saya = Jurnal::where('nis_siswa', $nis)
+            ->whereDate('tanggal', $today)
+            ->count();
+
+        $total_laporan_saya = Laporan::where('nis_siswa', $nis)->count();
+
+        $latest_infos = Info::orderBy('tanggal', 'desc')->limit(5)->get();
+
+        return view('dashboard.siswa', [
+            'siswa'                  => $siswa,
+            'total_tempat_saya'      => $total_tempat_saya,
+            'absensi_hari_ini_saya'  => $absensi_hari_ini_saya,
+            'jurnal_hari_ini_saya'   => $jurnal_hari_ini_saya,
+            'total_laporan_saya'     => $total_laporan_saya,
+            'latest_infos'           => $latest_infos,
+        ]);
     }
 }

@@ -138,38 +138,38 @@
                 <hr class="sidebar-divider">
                 <div class="sidebar-heading">Siswa</div>
 
-                <li class="nav-item">
-                    <a class="nav-link" href="#">
+                <li class="nav-item {{ request()->routeIs('siswa.tempat.*') ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ route('siswa.tempat.index') }}">
                         <i class="fas fa-briefcase fa-fw"></i>
                         <span>Tempat PKL</span>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">
+                <li class="nav-item {{ request()->routeIs('siswa.absensi.*') ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ route('siswa.absensi.index') }}">
                         <i class="fas fa-clipboard-check fa-fw"></i>
                         <span>Absensi</span>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">
+                <li class="nav-item {{ request()->routeIs('siswa.jurnal.*') ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ route('siswa.jurnal.index') }}">
                         <i class="fas fa-book fa-fw"></i>
                         <span>Jurnal Harian</span>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">
+                <li class="nav-item {{ request()->routeIs('siswa.bimbingan.*') ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ route('siswa.bimbingan.index') }}">
                         <i class="fas fa-comments fa-fw"></i>
                         <span>Bimbingan</span>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">
+                <li class="nav-item {{ request()->routeIs('siswa.laporan.*') ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ route('siswa.laporan.index') }}">
                         <i class="fas fa-file-alt fa-fw"></i>
                         <span>Laporan PKL</span>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('admin.info.index') }}">
+                <li class="nav-item {{ request()->routeIs('siswa.info.*') ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ route('siswa.info.index') }}">
                         <i class="fas fa-bullhorn fa-fw"></i>
                         <span>Info / Pengumuman</span>
                     </a>
