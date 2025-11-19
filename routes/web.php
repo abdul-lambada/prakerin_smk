@@ -15,6 +15,11 @@ use App\Http\Controllers\Admin\JurnalController as AdminJurnalController;
 use App\Http\Controllers\Admin\LaporanController as AdminLaporanController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\PembimbingSiswaController;
+use App\Http\Controllers\PembimbingMonitoringController;
+use App\Http\Controllers\PembimbingNilaiController;
+use App\Http\Controllers\PembimbingLaporanSidangController;
+use App\Http\Controllers\PembimbingInfoController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -65,6 +70,13 @@ Route::middleware('auth')->group(function () {
 
     Route::middleware('role:pembimbing')->group(function () {
         Route::get('/dashboard/pembimbing', [DashboardController::class, 'pembimbing'])->name('dashboard.pembimbing');
+        Route::get('/pembimbing/siswa-bimbingan', [PembimbingSiswaController::class, 'index'])->name('pembimbing.siswa-bimbingan.index');
+        Route::get('/pembimbing/monitoring', [PembimbingMonitoringController::class, 'index'])->name('pembimbing.monitoring.index');
+        Route::get('/pembimbing/nilai', [PembimbingNilaiController::class, 'index'])->name('pembimbing.nilai.index');
+        Route::get('/pembimbing/nilai/{tempat}', [PembimbingNilaiController::class, 'edit'])->name('pembimbing.nilai.edit');
+        Route::post('/pembimbing/nilai/{tempat}', [PembimbingNilaiController::class, 'save'])->name('pembimbing.nilai.save');
+        Route::get('/pembimbing/laporan-sidang', [PembimbingLaporanSidangController::class, 'index'])->name('pembimbing.laporan-sidang.index');
+        Route::get('/pembimbing/info', [PembimbingInfoController::class, 'index'])->name('pembimbing.info.index');
     });
 
     Route::middleware('role:siswa')->group(function () {

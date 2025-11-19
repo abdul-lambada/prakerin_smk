@@ -74,7 +74,42 @@ class DashboardController extends Controller
 
     public function pembimbing()
     {
-        return view('dashboard.pembimbing');
+        $user = Auth::user();
+
+        $pembimbing = Pembimbing::where('user_id', $user->id)->first();
+
+        if (! $pembimbing) {
+            abort(403, 'Akun pembimbing belum terhubung dengan data pembimbing.');
+        }
+
+        $total_siswa_bimbingan = Siswa::where('kd_pembimbing', $pembimbing->kd_pembimbing)->count();
+
+        $tempatQuery   = Tempat::where('kd_pembimbing', $pembimbing->kd_pembimbing);
+        $total_tempat  = $tempatQuery->count();
+        $tempatIds     = $tempatQuery->pluck('kd_tempat');
+
+        $today = now()->toDateString();
+
+        $absensi_hari_ini = Absensi::whereIn('kd_tempat', $tempatIds)
+            ->whereDate('tanggal', $today)
+            ->count();
+
+        $jurnal_hari_ini = Jurnal::whereIn('kd_tempat', $tempatIds)
+            ->whereDate('tanggal', $today)
+            ->count();
+
+        $total_laporan = Laporan::whereIn('kd_tempat', $tempatIds)->count();
+
+        $latest_infos = Info::orderBy('tanggal', 'desc')->limit(5)->get();
+
+        return view('dashboard.pembimbing', [
+            'total_siswa_bimbingan' => $total_siswa_bimbingan,
+            'total_tempat'          => $total_tempat,
+            'absensi_hari_ini'      => $absensi_hari_ini,
+            'jurnal_hari_ini'       => $jurnal_hari_ini,
+            'total_laporan'         => $total_laporan,
+            'latest_infos'          => $latest_infos,
+        ]);
     }
 
     public function siswa()

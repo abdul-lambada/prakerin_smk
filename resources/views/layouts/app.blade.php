@@ -104,32 +104,32 @@
                 <hr class="sidebar-divider">
                 <div class="sidebar-heading">Pembimbing</div>
 
-                <li class="nav-item">
-                    <a class="nav-link" href="#">
+                <li class="nav-item {{ request()->routeIs('pembimbing.siswa-bimbingan.*') ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ route('pembimbing.siswa-bimbingan.index') }}">
                         <i class="fas fa-user-graduate fa-fw"></i>
                         <span>Siswa Bimbingan</span>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">
+                <li class="nav-item {{ request()->routeIs('pembimbing.monitoring.*') ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ route('pembimbing.monitoring.index') }}">
                         <i class="fas fa-book-open fa-fw"></i>
                         <span>Monitoring &amp; Bimbingan</span>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">
+                <li class="nav-item {{ request()->routeIs('pembimbing.nilai.*') ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ route('pembimbing.nilai.index') }}">
                         <i class="fas fa-clipboard-check fa-fw"></i>
                         <span>Penilaian PKL</span>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">
+                <li class="nav-item {{ request()->routeIs('pembimbing.laporan-sidang.*') ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ route('pembimbing.laporan-sidang.index') }}">
                         <i class="fas fa-file-alt fa-fw"></i>
                         <span>Laporan &amp; Sidang</span>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('admin.info.index') }}">
+                <li class="nav-item {{ request()->routeIs('pembimbing.info.*') ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ route('pembimbing.info.index') }}">
                         <i class="fas fa-bullhorn fa-fw"></i>
                         <span>Info / Pengumuman</span>
                     </a>
