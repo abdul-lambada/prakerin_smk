@@ -11,9 +11,9 @@
              x-transition.opacity.duration.500ms
              x-transition.transform.origin-top.duration.500ms>
         <div>
-            <p class="text-xs font-semibold tracking-wide text-primary uppercase mb-2">{{ Str::upper($settings['app_name'] ?? 'Sistem Informasi Praktik Kerja Lapangan') }}</p>
+            <p class="text-xs font-semibold tracking-wide text-primary uppercase mb-2">{{ \Illuminate\Support\Str::upper($settings['app_name'] ?? 'Sistem Informasi Praktik Kerja Lapangan') }}</p>
             <h1 class="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
-                Monitoring PKL {{ $settings['school_name'] ?? 'SMK' }} secara terpadu.
+               Prakerin {{ $settings['school_name'] ?? 'SMK' }} secara terpadu.
             </h1>
             <p class="text-sm text-slate-600 mb-6 leading-relaxed">
                 Portal ini digunakan oleh siswa, pembimbing sekolah, dan mitra industri untuk mengelola penempatan PKL, absensi, jurnal harian, penilaian, hingga laporan akhir.

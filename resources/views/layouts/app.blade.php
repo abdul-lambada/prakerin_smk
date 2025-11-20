@@ -69,11 +69,21 @@
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
+            @php
+                $appName = \App\Models\Setting::get('app_name', 'PKL SMK');
+                $appShortName = \App\Models\Setting::get('app_short_name');
+                $appLogo = \App\Models\Setting::get('app_logo');
+                $brandText = $appShortName ?: $appName;
+            @endphp
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ route('dashboard.index') }}">
-                <div class="sidebar-brand-icon rotate-n-15">
-                    <i class="fas fa-laugh-wink"></i>
+                <div class="sidebar-brand-icon d-flex align-items-center justify-content-center">
+                    @if($appLogo)
+                        <img src="{{ asset($appLogo) }}" alt="Logo" style="height:24px; max-width:120px; object-fit:contain;">
+                    @else
+                        <i class="fas fa-laugh-wink"></i>
+                    @endif
                 </div>
-                <div class="sidebar-brand-text mx-3">PKL <sup>SMK</sup></div>
+                <div class="sidebar-brand-text mx-3">{{ $brandText }}</div>
             </a>
 
             <hr class="sidebar-divider my-0">
@@ -149,6 +159,12 @@
                         <span>Laporan Jurnal &amp; Absensi</span>
                     </a>
                 </li>
+                <li class="nav-item {{ request()->routeIs('admin.monitoring.*') ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ route('admin.monitoring.index') }}">
+                        <i class="fas fa-map-marked-alt fa-fw"></i>
+                        <span>Monitoring Lapangan</span>
+                    </a>
+                </li>
                 <li class="nav-item {{ request()->routeIs('admin.info.*') ? 'active' : '' }}">
                     <a class="nav-link" href="{{ route('admin.info.index') }}">
                         <i class="fas fa-bullhorn fa-fw"></i>
@@ -172,6 +188,12 @@
                     <a class="nav-link" href="{{ route('pembimbing.monitoring.index') }}">
                         <i class="fas fa-book-open fa-fw"></i>
                         <span>Monitoring &amp; Bimbingan</span>
+                    </a>
+                </li>
+                <li class="nav-item {{ request()->routeIs('pembimbing.monitoring-lapangan.*') ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ route('pembimbing.monitoring-lapangan.index') }}">
+                        <i class="fas fa-map-marked-alt fa-fw"></i>
+                        <span>Monitoring Lapangan</span>
                     </a>
                 </li>
                 <li class="nav-item {{ request()->routeIs('pembimbing.laporan-sidang.*') ? 'active' : '' }}">

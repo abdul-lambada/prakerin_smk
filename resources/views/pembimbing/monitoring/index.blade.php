@@ -4,7 +4,7 @@
 
 @push('styles')
 <link href="{{ asset('sb-admin-2/vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
-@endpush
+@endpush>
 
 <!-- Modal Detail Absensi -->
 <div class="modal fade" id="detailAbsensiModal" tabindex="-1" role="dialog" aria-hidden="true">
@@ -45,7 +45,6 @@
             </div>
         </div>
     </div>
-    
 </div>
 
 <!-- Modal Detail Jurnal -->
@@ -93,6 +92,7 @@
 <h1 class="h3 mb-4 text-gray-800">Monitoring &amp; Bimbingan</h1>
 <p class="mb-3">Riwayat Absensi dan Jurnal siswa bimbingan {{ $pembimbing->nama_lengkap }}.</p>
 
+{{-- ABSENSI --}}
 <div class="card shadow mb-4">
     <div class="card-header py-3 d-flex justify-content-between align-items-center">
         <h6 class="m-0 font-weight-bold text-primary">Absensi Siswa Bimbingan</h6>
@@ -142,7 +142,9 @@
                                     <a href="{{ route('pembimbing.bimbingan.show', $item->tempat) }}" class="btn btn-sm btn-primary mt-1 position-relative">
                                         <i class="fas fa-comments"></i>
                                         @if($unread > 0)
-                                            <span class="badge badge-danger" style="position:absolute; top:-5px; right:-5px; font-size:0.7rem;">{{ $unread }}</span>
+                                            <span class="badge badge-danger" style="position:absolute; top:-5px; right:-5px; font-size:0.7rem;">
+                                                {{ $unread }}
+                                            </span>
                                         @endif
                                     </a>
                                 @endif
@@ -155,6 +157,7 @@
     </div>
 </div>
 
+{{-- JURNAL --}}
 <div class="card shadow mb-4">
     <div class="card-header py-3 d-flex justify-content-between align-items-center">
         <h6 class="m-0 font-weight-bold text-primary">Jurnal Siswa Bimbingan</h6>
