@@ -82,6 +82,7 @@ Route::middleware('auth')->group(function () {
         Route::resource('admin/tempat', AdminTempatController::class)->names('admin.tempat');
         Route::resource('admin/info', AdminInfoController::class)->names('admin.info');
         Route::resource('admin/nilai', AdminNilaiController::class)->names('admin.nilai');
+        Route::get('admin/nilai/cetak/pdf', [AdminNilaiController::class, 'cetakPdf'])->name('admin.nilai.cetak-pdf');
         Route::resource('admin/sidang', AdminSidangController::class)->names('admin.sidang');
         Route::resource('admin/absensi', AdminAbsensiController::class)->names('admin.absensi');
         Route::resource('admin/jurnal', AdminJurnalController::class)->names('admin.jurnal');

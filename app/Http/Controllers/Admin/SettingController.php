@@ -18,6 +18,7 @@ class SettingController extends Controller
             'school_address',
             'school_phone',
             'school_email',
+            'school_city',
             'theme_color_primary',
             'active_academic_year',
             'active_pkl_year',
@@ -32,6 +33,10 @@ class SettingController extends Controller
             'dashboard_info_banner',
             'maintenance_mode',
             'maintenance_message',
+            'principal_name',
+            'principal_nip',
+            'pkl_coordinator_name',
+            'pkl_coordinator_nip',
         ];
 
         $settings = [];
@@ -51,6 +56,7 @@ class SettingController extends Controller
             'school_address' => 'nullable|string',
             'school_phone' => 'nullable|string|max:50',
             'school_email' => 'nullable|email|max:255',
+            'school_city' => 'nullable|string|max:100',
             'theme_color_primary' => 'nullable|string|max:50',
             'active_academic_year' => 'nullable|string|max:20',
             'active_pkl_year' => 'nullable|string|max:20',
@@ -66,6 +72,10 @@ class SettingController extends Controller
             'maintenance_mode' => 'nullable|boolean',
             'maintenance_message' => 'nullable|string',
             'app_logo' => 'nullable|image|mimes:jpeg,png,jpg,svg,webp|max:2048',
+            'principal_name' => 'nullable|string|max:255',
+            'principal_nip' => 'nullable|string|max:50',
+            'pkl_coordinator_name' => 'nullable|string|max:255',
+            'pkl_coordinator_nip' => 'nullable|string|max:50',
         ]);
 
         // Handle logo upload terpisah

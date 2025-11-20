@@ -54,6 +54,10 @@
                 <input type="email" name="school_email" value="{{ old('school_email', $settings['school_email']) }}" class="form-control">
             </div>
             <div class="form-group">
+                <label>Kota Sekolah (untuk kop &amp; tanda tangan)</label>
+                <input type="text" name="school_city" value="{{ old('school_city', $settings['school_city']) }}" class="form-control">
+            </div>
+            <div class="form-group">
                 <label>Warna Utama (Theme Primary)</label>
                 <input type="text" name="theme_color_primary" value="{{ old('theme_color_primary', $settings['theme_color_primary']) }}" class="form-control" placeholder="#4e73df atau nama kelas warna">
             </div>
@@ -132,6 +136,23 @@
             <div class="form-group">
                 <label>Pesan Maintenance</label>
                 <textarea name="maintenance_message" class="form-control" rows="2">{{ old('maintenance_message', $settings['maintenance_message']) }}</textarea>
+            </div>
+            <hr>
+            <div class="form-group">
+                <label>Nama Kepala Sekolah</label>
+                <input type="text" name="principal_name" value="{{ old('principal_name', $settings['principal_name']) }}" class="form-control">
+            </div>
+            <div class="form-group">
+                <label>NIP Kepala Sekolah</label>
+                <input type="text" name="principal_nip" value="{{ old('principal_nip', $settings['principal_nip']) }}" class="form-control">
+            </div>
+            <div class="form-group">
+                <label>Nama Koordinator PKL</label>
+                <input type="text" name="pkl_coordinator_name" value="{{ old('pkl_coordinator_name', $settings['pkl_coordinator_name']) }}" class="form-control">
+            </div>
+            <div class="form-group">
+                <label>NIP Koordinator PKL</label>
+                <input type="text" name="pkl_coordinator_nip" value="{{ old('pkl_coordinator_nip', $settings['pkl_coordinator_nip']) }}" class="form-control">
             </div>
         </div>
     </div>

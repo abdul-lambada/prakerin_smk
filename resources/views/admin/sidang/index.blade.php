@@ -18,7 +18,7 @@
         <h6 class="m-0 font-weight-bold text-primary">Daftar Sidang PKL</h6>
         <div>
 
-            <a href="{{ route('admin.sidang.index') }}" class="btn btn-secondary btn-sm border mr-2">
+            <a href="{{ route('admin.nilai.index') }}" class="btn btn-secondary btn-sm border mr-2">
                     <i class="fas fa-gavel"></i> Data Nilai
                 </a>
             <a href="{{ route('admin.sidang.create') }}" class="btn btn-primary btn-sm">

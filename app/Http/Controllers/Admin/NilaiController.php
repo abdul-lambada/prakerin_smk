@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Nilai;
 use App\Models\Tempat;
+use App\Models\Setting;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 
 class NilaiController extends Controller
@@ -86,6 +88,26 @@ class NilaiController extends Controller
         $nilai->delete();
 
         return redirect()->route('admin.nilai.index')->with('status', 'Nilai PKL berhasil dihapus.');
+    }
+
+    public function cetakPdf()
+    {
+        $nilais = Nilai::with('tempat.siswa')->get();
+
+        $schoolName = Setting::get('school_name') ?? 'SMK';
+        $appName = Setting::get('app_name', 'PKL SMK');
+        $activeAcademicYear = Setting::get('active_academic_year');
+        $activePklYear = Setting::get('active_pkl_year');
+
+        $pdf = Pdf::loadView('admin.nilai.pdf', [
+            'nilais' => $nilais,
+            'schoolName' => $schoolName,
+            'appName' => $appName,
+            'activeAcademicYear' => $activeAcademicYear,
+            'activePklYear' => $activePklYear,
+        ])->setPaper('A4', 'landscape');
+
+        return $pdf->download('nilai-pkl-'.date('Ymd').'.pdf');
     }
 
     private function hitungNilaiAkhirDanPredikat(array &$data): void

@@ -17,6 +17,9 @@
     <div class="card-header py-3 d-flex justify-content-between align-items-center">
         <h6 class="m-0 font-weight-bold text-primary">Daftar Nilai PKL</h6>
         <div>
+            <a href="{{ route('admin.nilai.cetak-pdf') }}" class="btn btn-outline-danger btn-sm border mr-2" target="_blank">
+                <i class="fas fa-file-pdf"></i> Cetak PDF
+            </a>
             <a href="{{ route('admin.sidang.index') }}" class="btn btn-secondary btn-sm border mr-2">
                 <i class="fas fa-gavel"></i> Data Sidang
             </a>
@@ -44,7 +47,7 @@
                 <tbody>
                     @foreach($nilais as $item)
                         <tr>
-                            <td>{{ optional($item->tempat)->kd_tempat }}</td>
+                            <td>{{ optional(optional($item->tempat)->industri)->nama_industri }}</td>
                             <td>{{ optional(optional($item->tempat)->siswa)->nama_lengkap }}</td>
                             <td>{{ $item->nilai_du_di }}</td>
                             <td>{{ $item->nilai_sidang }}</td>
