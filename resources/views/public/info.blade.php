@@ -1,5 +1,5 @@
 @php
-    $title = 'Info PKL';
+    $title = 'Info Prakerin';
 @endphp
 @extends('layouts.public')
 
@@ -10,7 +10,7 @@
              x-show="show"
              x-transition.opacity.duration.500ms
              x-transition.transform.origin-top.duration.500ms>
-        <h1 class="text-2xl font-bold text-slate-900 mb-1">Info & Pengumuman PKL</h1>
+        <h1 class="text-2xl font-bold text-slate-900 mb-1">Info & Pengumuman Prakerin</h1>
         <p class="text-sm text-slate-600">Pengumuman resmi terkait pelaksanaan Praktik Kerja Lapangan.</p>
     </section>
 
@@ -79,7 +79,7 @@
     @endif
 
     @if ($infos->isEmpty())
-        <p class="text-xs text-slate-500">Belum ada info PKL yang dipublikasikan.</p>
+        <p class="text-xs text-slate-500">Belum ada info Prakerin yang dipublikasikan.</p>
     @else
         <div class="space-y-3 text-xs">
             @foreach ($infos as $info)

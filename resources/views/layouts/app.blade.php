@@ -187,13 +187,13 @@
                 <li class="nav-item {{ request()->routeIs('pembimbing.monitoring.*') ? 'active' : '' }}">
                     <a class="nav-link" href="{{ route('pembimbing.monitoring.index') }}">
                         <i class="fas fa-book-open fa-fw"></i>
-                        <span>Monitoring &amp; Bimbingan</span>
+                        <span>Monitoring Harian &amp; Bimbingan Prakerin</span>
                     </a>
                 </li>
                 <li class="nav-item {{ request()->routeIs('pembimbing.monitoring-lapangan.*') ? 'active' : '' }}">
                     <a class="nav-link" href="{{ route('pembimbing.monitoring-lapangan.index') }}">
                         <i class="fas fa-map-marked-alt fa-fw"></i>
-                        <span>Monitoring Lapangan</span>
+                        <span>Monitoring Lapangan Prakerin</span>
                     </a>
                 </li>
                 <li class="nav-item {{ request()->routeIs('pembimbing.laporan-sidang.*') ? 'active' : '' }}">

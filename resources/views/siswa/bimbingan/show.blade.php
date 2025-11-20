@@ -1,9 +1,9 @@
 @extends('layouts.app')
 
-@section('title', 'Ruang Bimbingan PKL')
+@section('title', 'Ruang Bimbingan Prakerin')
 
 @section('content')
-<h1 class="h3 mb-4 text-gray-800">Ruang Bimbingan PKL</h1>
+<h1 class="h3 mb-4 text-gray-800">Ruang Bimbingan Prakerin</h1>
 
 <div class="card mb-4">
     <div class="card-body">
@@ -11,7 +11,7 @@
             <dt class="col-sm-3">Siswa</dt>
             <dd class="col-sm-9">{{ $siswa->nama_lengkap }}</dd>
 
-            <dt class="col-sm-3">Tempat PKL</dt>
+            <dt class="col-sm-3">Tempat Prakerin</dt>
             <dd class="col-sm-9">{{ $tempat->kd_tempat }} - {{ optional($tempat->industri)->nama_industri }}</dd>
 
             <dt class="col-sm-3">Pembimbing</dt>

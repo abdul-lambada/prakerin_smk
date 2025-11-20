@@ -17,7 +17,7 @@
                 </div>
             @else
                 <div class="w-24 h-24 md:w-28 md:h-28 rounded-full bg-primary/10 flex items-center justify-center">
-                    <span class="text-primary font-bold">PKL</span>
+                    <span class="text-primary font-bold">PR</span>
                 </div>
             @endif
         </div>
@@ -25,7 +25,7 @@
         <div class="flex-1">
             <h1 class="text-2xl font-bold text-slate-900 mb-2">Kontak</h1>
             <p class="text-sm text-slate-600 max-w-2xl">
-                Silakan hubungi sekolah atau koordinator PKL jika membutuhkan informasi lebih lanjut terkait pelaksanaan Praktik Kerja Lapangan.
+                Silakan hubungi sekolah atau koordinator Prakerin jika membutuhkan informasi lebih lanjut terkait pelaksanaan Praktik Kerja Lapangan (Prakerin).
             </p>
         </div>
     </section>
@@ -56,19 +56,19 @@
         </div>
 
         <div class="bg-white border border-slate-100 rounded-xl p-5 space-y-2">
-            <h2 class="font-semibold text-slate-900 mb-2">Kontak Koordinator PKL</h2>
+            <h2 class="font-semibold text-slate-900 mb-2">Kontak Koordinator Prakerin</h2>
             <p class="text-slate-700">
                 @if (!empty($settings['pkl_coordinator_name']))
                     <span class="font-medium">{{ $settings['pkl_coordinator_name'] }}</span>
                 @else
-                    <span class="font-medium">Koordinator PKL</span>
+                    <span class="font-medium">Koordinator Prakerin</span>
                 @endif
             </p>
             @if (!empty($settings['pkl_coordinator_nip']))
                 <p class="text-slate-600">NIP: {{ $settings['pkl_coordinator_nip'] }}</p>
             @endif
             <p class="text-[11px] text-slate-500 mt-2">
-                Detail kontak koordinator PKL dapat ditanyakan melalui tata usaha atau humas sekolah.
+                Detail kontak koordinator Prakerin dapat ditanyakan melalui tata usaha atau humas sekolah.
             </p>
         </div>
     </section>

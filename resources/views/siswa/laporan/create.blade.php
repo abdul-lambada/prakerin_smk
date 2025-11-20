@@ -1,9 +1,9 @@
 @extends('layouts.app')
 
-@section('title', 'Upload Laporan PKL')
+@section('title', 'Upload Laporan Prakerin')
 
 @section('content')
-<h1 class="h3 mb-4 text-gray-800">Upload Laporan PKL</h1>
+<h1 class="h3 mb-4 text-gray-800">Upload Laporan Prakerin</h1>
 
 <div class="card shadow mb-4">
     <div class="card-body">
@@ -11,9 +11,9 @@
             @csrf
 
             <div class="form-group">
-                <label>Tempat PKL</label>
+                <label>Tempat Prakerin</label>
                 <select name="kd_tempat" class="form-control @error('kd_tempat') is-invalid @enderror" required>
-                    <option value="">-- Pilih Tempat PKL --</option>
+                    <option value="">-- Pilih Tempat Prakerin --</option>
                     @foreach($tempats as $t)
                         <option value="{{ $t->kd_tempat }}" {{ old('kd_tempat') == $t->kd_tempat ? 'selected' : '' }}>
                             {{ $t->kd_tempat }} - {{ optional($t->industri)->nama_industri }}

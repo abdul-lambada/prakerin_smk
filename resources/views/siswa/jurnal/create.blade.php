@@ -11,9 +11,9 @@
             @csrf
 
             <div class="form-group">
-                <label>Tempat PKL</label>
+                <label>Tempat Prakerin</label>
                 <select name="kd_tempat" class="form-control @error('kd_tempat') is-invalid @enderror" required>
-                    <option value="">-- Pilih Tempat PKL --</option>
+                    <option value="">-- Pilih Tempat Prakerin --</option>
                     @foreach($tempats as $t)
                         <option value="{{ $t->kd_tempat }}" {{ old('kd_tempat') == $t->kd_tempat ? 'selected' : '' }}>
                             {{ $t->kd_tempat }} - {{ optional($t->industri)->nama_industri }}

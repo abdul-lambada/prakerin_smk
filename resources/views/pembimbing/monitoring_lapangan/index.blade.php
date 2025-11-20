@@ -1,14 +1,14 @@
 @extends('layouts.app')
 
-@section('title', 'Monitoring Lapangan')
+@section('title', 'Monitoring Lapangan Prakerin')
 
 @push('styles')
 <link href="{{ asset('sb-admin-2/vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
 @endpush
 
 @section('content')
-<h1 class="h3 mb-4 text-gray-800">Monitoring Lapangan</h1>
-<p class="mb-3">Daftar catatan monitoring lapangan untuk siswa bimbingan {{ $pembimbing->nama_lengkap }}.</p>
+<h1 class="h3 mb-4 text-gray-800">Monitoring Lapangan Prakerin</h1>
+<p class="mb-3">Daftar catatan monitoring lapangan Prakerin untuk siswa bimbingan {{ $pembimbing->nama_lengkap }}.</p>
 
 @if(session('status'))
     <div class="alert alert-success">{{ session('status') }}</div>
@@ -16,7 +16,7 @@
 
 <div class="card shadow mb-4">
     <div class="card-header py-3 d-flex justify-content-between align-items-center">
-        <h6 class="m-0 font-weight-bold text-primary">Monitoring Lapangan</h6>
+        <h6 class="m-0 font-weight-bold text-primary">Monitoring Lapangan Prakerin</h6>
         <a href="{{ route('pembimbing.monitoring-lapangan.create') }}" class="btn btn-primary btn-sm">
             <i class="fas fa-plus"></i> Tambah Monitoring
         </a>

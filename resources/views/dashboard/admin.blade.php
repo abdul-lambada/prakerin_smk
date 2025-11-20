@@ -44,7 +44,7 @@
             <div class="card-body">
                 <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
-                        <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Industri PKL</div>
+                        <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Industri Prakerin</div>
                         <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $total_industri }}</div>
                     </div>
                     <div class="col-auto">
@@ -60,7 +60,7 @@
             <div class="card-body">
                 <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
-                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Penempatan PKL</div>
+                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Penempatan Prakerin</div>
                         <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $total_tempat }}</div>
                     </div>
                     <div class="col-auto">
@@ -138,7 +138,7 @@
             <div class="card-body">
                 <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
-                        <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Laporan PKL</div>
+                        <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Laporan Prakerin</div>
                         <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $total_laporan }}</div>
                     </div>
                     <div class="col-auto">
@@ -308,7 +308,7 @@
         data: {
             labels: @json($chart_industri_labels),
             datasets: [{
-                label: 'Jumlah Siswa PKL',
+                label: 'Jumlah Siswa Prakerin',
                 data: @json($chart_industri_data),
                 backgroundColor: 'rgba(54, 185, 204, 0.6)',
                 borderColor: 'rgba(54, 185, 204, 1)',

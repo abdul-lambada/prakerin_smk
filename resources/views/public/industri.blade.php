@@ -1,5 +1,5 @@
 @php
-    $title = 'Daftar Industri PKL';
+    $title = 'Daftar Industri Prakerin';
 @endphp
 @extends('layouts.public')
 
@@ -10,8 +10,8 @@
              x-show="show"
              x-transition.opacity.duration.500ms
              x-transition.transform.origin-top.duration.500ms>
-        <h1 class="text-2xl font-bold text-slate-900 mb-1">Daftar Industri PKL</h1>
-        <p class="text-sm text-slate-600">Mitra industri yang bekerja sama dengan {{ $settings['school_name'] ?? 'sekolah' }} untuk pelaksanaan PKL.</p>
+        <h1 class="text-2xl font-bold text-slate-900 mb-1">Daftar Industri Prakerin</h1>
+        <p class="text-sm text-slate-600">Mitra industri yang bekerja sama dengan {{ $settings['school_name'] ?? 'sekolah' }} untuk pelaksanaan Praktik Kerja Lapangan (Prakerin).</p>
     </section>
 
     <section class="text-xs"

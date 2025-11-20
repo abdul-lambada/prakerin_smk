@@ -11,12 +11,12 @@
              x-transition.opacity.duration.500ms
              x-transition.transform.origin-top.duration.500ms>
         <div>
-            <p class="text-xs font-semibold tracking-wide text-primary uppercase mb-2">{{ \Illuminate\Support\Str::upper($settings['app_name'] ?? 'Sistem Informasi Praktik Kerja Lapangan') }}</p>
+            <p class="text-xs font-semibold tracking-wide text-primary uppercase mb-2">{{ \Illuminate\Support\Str::upper($settings['app_name'] ?? 'Sistem Informasi Prakerin') }}</p>
             <h1 class="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
                Prakerin {{ $settings['school_name'] ?? 'SMK' }} secara terpadu.
             </h1>
             <p class="text-sm text-slate-600 mb-6 leading-relaxed">
-                Portal ini digunakan oleh siswa, pembimbing sekolah, dan mitra industri untuk mengelola penempatan PKL, absensi, jurnal harian, penilaian, hingga laporan akhir.
+                Portal ini digunakan oleh siswa, pembimbing sekolah, dan mitra industri untuk mengelola penempatan Praktik Kerja Lapangan (Prakerin), absensi, jurnal harian, penilaian, hingga laporan akhir.
             </p>
 
             <div class="flex flex-wrap gap-3 mb-6 text-xs">
@@ -34,7 +34,7 @@
             <ul class="grid grid-cols-2 gap-3 text-xs text-slate-700">
                 <li class="flex items-start gap-2">
                     <span class="mt-1 w-1.5 h-1.5 rounded-full bg-primary"></span>
-                    <span>Penempatan PKL terdata rapi per industri.</span>
+                    <span>Penempatan Prakerin terdata rapi per industri.</span>
                 </li>
                 <li class="flex items-start gap-2">
                     <span class="mt-1 w-1.5 h-1.5 rounded-full bg-primary"></span>

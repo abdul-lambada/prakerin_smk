@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Monitoring & Bimbingan')
+@section('title', 'Monitoring Harian & Bimbingan Prakerin')
 
 @push('styles')
 <link href="{{ asset('sb-admin-2/vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
@@ -89,8 +89,8 @@
 </div>
 
 @section('content')
-<h1 class="h3 mb-4 text-gray-800">Monitoring &amp; Bimbingan</h1>
-<p class="mb-3">Riwayat Absensi dan Jurnal siswa bimbingan {{ $pembimbing->nama_lengkap }}.</p>
+<h1 class="h3 mb-4 text-gray-800">Monitoring Harian &amp; Bimbingan Prakerin</h1>
+<p class="mb-3">Riwayat absensi dan jurnal harian siswa bimbingan Prakerin oleh {{ $pembimbing->nama_lengkap }}.</p>
 
 {{-- ABSENSI --}}
 <div class="card shadow mb-4">

@@ -1,13 +1,13 @@
 @extends('layouts.app')
 
-@section('title', 'Laporan PKL Saya')
+@section('title', 'Laporan Prakerin Saya')
 
 @push('styles')
 <link href="{{ asset('sb-admin-2/vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
 @endpush
 
 @section('content')
-<h1 class="h3 mb-4 text-gray-800">Laporan PKL Saya</h1>
+<h1 class="h3 mb-4 text-gray-800">Laporan Prakerin Saya</h1>
 
 @if(session('status'))
     <div class="alert alert-success">{{ session('status') }}</div>
@@ -15,7 +15,7 @@
 
 <div class="card shadow mb-4">
     <div class="card-header py-3 d-flex justify-content-between align-items-center">
-        <h6 class="m-0 font-weight-bold text-primary">Daftar Laporan PKL</h6>
+        <h6 class="m-0 font-weight-bold text-primary">Daftar Laporan Prakerin</h6>
         <a href="{{ route('siswa.laporan.create') }}" class="btn btn-primary btn-sm">
             <i class="fas fa-upload"></i> Upload Laporan
         </a>

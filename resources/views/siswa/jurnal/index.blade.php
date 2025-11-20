@@ -1,13 +1,13 @@
 @extends('layouts.app')
 
-@section('title', 'Jurnal Harian PKL Saya')
+@section('title', 'Jurnal Harian Prakerin Saya')
 
 @push('styles')
 <link href="{{ asset('sb-admin-2/vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
 @endpush
 
 @section('content')
-<h1 class="h3 mb-4 text-gray-800">Jurnal Harian PKL Saya</h1>
+<h1 class="h3 mb-4 text-gray-800">Jurnal Harian Prakerin Saya</h1>
 
 @if(session('status'))
     <div class="alert alert-success">{{ session('status') }}</div>

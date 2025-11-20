@@ -1,18 +1,18 @@
 @extends('layouts.app')
 
-@section('title', 'Tempat PKL Saya')
+@section('title', 'Tempat Prakerin Saya')
 
 @push('styles')
 <link href="{{ asset('sb-admin-2/vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
 @endpush
 
 @section('content')
-<h1 class="h3 mb-4 text-gray-800">Tempat PKL Saya</h1>
-<p class="mb-3">Daftar penempatan PKL untuk {{ $siswa->nama_lengkap }}.</p>
+<h1 class="h3 mb-4 text-gray-800">Tempat Prakerin Saya</h1>
+<p class="mb-3">Daftar penempatan Prakerin untuk {{ $siswa->nama_lengkap }}.</p>
 
 <div class="card shadow mb-4">
     <div class="card-header py-3 d-flex justify-content-between align-items-center">
-        <h6 class="m-0 font-weight-bold text-primary">Riwayat Penempatan PKL</h6>
+        <h6 class="m-0 font-weight-bold text-primary">Riwayat Penempatan Prakerin</h6>
     </div>
     <div class="card-body">
         <div class="table-responsive">

@@ -1,5 +1,5 @@
 @php
-    $title = 'Detail Industri PKL';
+    $title = 'Detail Industri Prakerin';
 @endphp
 @extends('layouts.public')
 
@@ -55,7 +55,7 @@
                     @if (!is_null($industri->kuota))
                         <p class="text-slate-600">Perkiraan kuota siswa: {{ $industri->kuota }}</p>
                     @endif
-                    <p class="text-slate-600">Total siswa yang pernah / sedang PKL: {{ $industri->tempat_count ?? 0 }} siswa</p>
+                    <p class="text-slate-600">Total siswa yang pernah / sedang Prakerin: {{ $industri->tempat_count ?? 0 }} siswa</p>
                 </div>
             </div>
         </div>

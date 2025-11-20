@@ -1,5 +1,5 @@
 @php
-    $title = 'Tentang PKL';
+    $title = 'Tentang Prakerin';
 @endphp
 @extends('layouts.public')
 
@@ -17,15 +17,15 @@
                 </div>
             @else
                 <div class="w-28 h-28 md:w-32 md:h-32 rounded-full bg-primary/10 flex items-center justify-center">
-                    <span class="text-primary font-bold text-lg">PKL</span>
+                    <span class="text-primary font-bold text-lg">PR</span>
                 </div>
             @endif
         </div>
 
         <div class="flex-1">
-            <h1 class="text-2xl font-bold text-slate-900 mb-2">Tentang Praktik Kerja Lapangan</h1>
+            <h1 class="text-2xl font-bold text-slate-900 mb-2">Tentang Praktik Kerja Lapangan (Prakerin)</h1>
             <p class="text-sm text-slate-600 max-w-3xl leading-relaxed">
-            Praktik Kerja Lapangan (PKL) adalah kegiatan belajar di dunia kerja yang wajib diikuti oleh peserta didik {{ $settings['school_name'] ?? 'SMK' }}
+            Praktik Kerja Lapangan (Prakerin) adalah kegiatan belajar di dunia kerja yang wajib diikuti oleh peserta didik {{ $settings['school_name'] ?? 'SMK' }}
             untuk mengembangkan kompetensi keahlian, sikap profesional, dan pengalaman nyata di industri.
             </p>
         </div>
@@ -38,7 +38,7 @@
              x-transition.opacity.duration.500ms
              x-transition.transform.origin-top.duration.500ms>
         <div class="bg-white border border-slate-100 rounded-xl p-4">
-            <h2 class="font-semibold text-slate-900 mb-1">Tujuan PKL</h2>
+            <h2 class="font-semibold text-slate-900 mb-1">Tujuan Prakerin</h2>
             <p class="text-slate-600 leading-relaxed">
                 Menghubungkan pembelajaran di sekolah dengan dunia kerja, menumbuhkan etos kerja, dan memberi gambaran nyata tentang lingkungan industri.
             </p>
@@ -65,14 +65,14 @@
              x-show="show"
              x-transition.opacity.duration.500ms
              x-transition.transform.origin-top.duration.500ms>
-        <h2 class="font-semibold text-slate-900 mb-2">Alur Singkat Pelaksanaan PKL</h2>
+        <h2 class="font-semibold text-slate-900 mb-2">Alur Singkat Pelaksanaan Prakerin</h2>
         <ol class="list-decimal list-inside space-y-1 text-slate-600">
-            <li>Penentuan tempat PKL dan pembagian siswa ke mitra industri.</li>
-            <li>Pembekalan siswa sebelum berangkat ke tempat PKL.</li>
-            <li>Pelaksanaan PKL di industri dengan pemantauan pembimbing sekolah.</li>
+            <li>Penentuan tempat Prakerin dan pembagian siswa ke mitra industri.</li>
+            <li>Pembekalan siswa sebelum berangkat ke tempat Prakerin.</li>
+            <li>Pelaksanaan Prakerin di industri dengan pemantauan pembimbing sekolah.</li>
             <li>Pencatatan jurnal harian dan absensi melalui sistem ini.</li>
             <li>Penilaian oleh pembimbing DUDI dan pembimbing sekolah.</li>
-            <li>Penyusunan laporan dan pelaksanaan sidang/ujian PKL.</li>
+            <li>Penyusunan laporan dan pelaksanaan sidang/ujian Prakerin.</li>
         </ol>
     </section>
 @endsection

@@ -1,5 +1,5 @@
 @php
-    $title = 'Detail Info PKL';
+    $title = 'Detail Info Prakerin';
 @endphp
 @extends('layouts.public')
 
