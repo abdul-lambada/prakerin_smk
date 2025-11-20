@@ -83,9 +83,12 @@ Route::middleware('auth')->group(function () {
         Route::resource('admin/info', AdminInfoController::class)->names('admin.info');
         Route::resource('admin/nilai', AdminNilaiController::class)->names('admin.nilai');
         Route::get('admin/nilai/cetak/pdf', [AdminNilaiController::class, 'cetakPdf'])->name('admin.nilai.cetak-pdf');
+        Route::get('admin/nilai/export/csv', [AdminNilaiController::class, 'exportCsv'])->name('admin.nilai.export-csv');
         Route::resource('admin/sidang', AdminSidangController::class)->names('admin.sidang');
         Route::resource('admin/absensi', AdminAbsensiController::class)->names('admin.absensi');
+        Route::get('admin/absensi/export/csv', [AdminAbsensiController::class, 'exportCsv'])->name('admin.absensi.export-csv');
         Route::resource('admin/jurnal', AdminJurnalController::class)->names('admin.jurnal');
+        Route::get('admin/jurnal/export/csv', [AdminJurnalController::class, 'exportCsv'])->name('admin.jurnal.export-csv');
         Route::resource('admin/laporan', AdminLaporanController::class)->names('admin.laporan');
         Route::get('admin/settings', [AdminSettingController::class, 'index'])->name('admin.settings.index');
         Route::put('admin/settings', [AdminSettingController::class, 'update'])->name('admin.settings.update');

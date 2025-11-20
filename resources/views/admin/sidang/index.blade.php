@@ -1,26 +1,26 @@
 @extends('layouts.app')
 
-@section('title', 'Sidang PKL')
+@section('title', 'Data Sidang PKL')
 
 @push('styles')
 <link href="{{ asset('sb-admin-2/vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
 @endpush
 
+@section('breadcrumb')
+    <li class="breadcrumb-item"><a href="{{ route('dashboard.admin') }}">Dashboard</a></li>
+    <li class="breadcrumb-item">Nilai &amp; Sidang</li>
+    <li class="breadcrumb-item active" aria-current="page">Sidang PKL</li>
+@endsection
 @section('content')
-<h1 class="h3 mb-4 text-gray-800">Sidang PKL</h1>
-
-@if(session('status'))
-    <div class="alert alert-success">{{ session('status') }}</div>
-@endif
+<h1 class="h3 mb-4 text-gray-800">Data Sidang PKL</h1>
 
 <div class="card shadow mb-4">
     <div class="card-header py-3 d-flex justify-content-between align-items-center">
         <h6 class="m-0 font-weight-bold text-primary">Daftar Sidang PKL</h6>
         <div>
-
             <a href="{{ route('admin.nilai.index') }}" class="btn btn-secondary btn-sm border mr-2">
-                    <i class="fas fa-gavel"></i> Data Nilai
-                </a>
+                <i class="fas fa-gavel"></i> Data Nilai
+            </a>
             <a href="{{ route('admin.sidang.create') }}" class="btn btn-primary btn-sm">
                 <i class="fas fa-plus"></i> Tambah Sidang
             </a>

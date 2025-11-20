@@ -6,14 +6,47 @@ use App\Http\Controllers\Controller;
 use App\Models\Jurnal;
 use App\Models\Siswa;
 use App\Models\Tempat;
+use App\Models\Jurusan;
+use App\Models\Kelas;
 use Illuminate\Http\Request;
 
 class JurnalController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $jurnals = Jurnal::with(['siswa', 'tempat'])->get();
-        return view('admin.jurnal.index', compact('jurnals'));
+        $filters = [
+            'jurusan' => $request->query('jurusan'),
+            'kelas'   => $request->query('kelas'),
+            'tahun'   => $request->query('tahun'),
+        ];
+
+        $query = Jurnal::with(['siswa.kelas.jurusan', 'tempat.industri']);
+
+        if ($filters['jurusan']) {
+            $query->whereHas('siswa.kelas.jurusan', function ($q) use ($filters) {
+                $q->where('kd_jurusan', $filters['jurusan']);
+            });
+        }
+
+        if ($filters['kelas']) {
+            $query->whereHas('siswa.kelas', function ($q) use ($filters) {
+                $q->where('kd_kelas', $filters['kelas']);
+            });
+        }
+
+        if ($filters['tahun']) {
+            $query->whereHas('tempat', function ($q) use ($filters) {
+                $q->where('tahun', $filters['tahun']);
+            });
+        }
+
+        $jurnals = $query->get();
+
+        $jurusans = Jurusan::orderBy('nama')->get();
+        $kelasList = Kelas::orderBy('nama')->get();
+        $tahunList = Tempat::select('tahun')->distinct()->orderBy('tahun', 'desc')->pluck('tahun');
+
+        return view('admin.jurnal.index', compact('jurnals', 'filters', 'jurusans', 'kelasList', 'tahunList'));
     }
 
     public function create()
@@ -69,5 +102,75 @@ class JurnalController extends Controller
         $jurnal->delete();
 
         return redirect()->route('admin.jurnal.index')->with('status', 'Data jurnal berhasil dihapus.');
+    }
+
+    public function exportCsv(Request $request)
+    {
+        $filters = [
+            'jurusan' => $request->query('jurusan'),
+            'kelas'   => $request->query('kelas'),
+            'tahun'   => $request->query('tahun'),
+        ];
+
+        $query = Jurnal::with(['siswa.kelas.jurusan', 'tempat.industri']);
+
+        if ($filters['jurusan']) {
+            $query->whereHas('siswa.kelas.jurusan', function ($q) use ($filters) {
+                $q->where('kd_jurusan', $filters['jurusan']);
+            });
+        }
+
+        if ($filters['kelas']) {
+            $query->whereHas('siswa.kelas', function ($q) use ($filters) {
+                $q->where('kd_kelas', $filters['kelas']);
+            });
+        }
+
+        if ($filters['tahun']) {
+            $query->whereHas('tempat', function ($q) use ($filters) {
+                $q->where('tahun', $filters['tahun']);
+            });
+        }
+
+        $jurnals = $query->get();
+
+        $filename = 'jurnal-pkl-'.date('Ymd_His').'.csv';
+
+        $headers = [
+            'Content-Type' => 'text/csv',
+            'Content-Disposition' => "attachment; filename=\"{$filename}\"",
+        ];
+
+        $callback = function () use ($jurnals) {
+            $handle = fopen('php://output', 'w');
+
+            fputcsv($handle, [
+                'Tanggal',
+                'Nama Siswa',
+                'Industri / Tempat',
+                'Jam Mulai',
+                'Jam Selesai',
+                'Kegiatan',
+            ]);
+
+            foreach ($jurnals as $item) {
+                $siswa = optional($item->siswa);
+                $tempat = optional($item->tempat);
+                $industri = optional($tempat->industri);
+
+                fputcsv($handle, [
+                    optional($item->tanggal)->format('Y-m-d'),
+                    $siswa->nama_lengkap,
+                    $industri->nama_industri ?: $tempat->kd_tempat,
+                    $item->jam_mulai,
+                    $item->jam_selesai,
+                    $item->kegiatan,
+                ]);
+            }
+
+            fclose($handle);
+        };
+
+        return response()->stream($callback, 200, $headers);
     }
 }

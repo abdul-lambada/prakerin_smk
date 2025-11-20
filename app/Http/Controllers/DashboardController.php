@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use App\Models\Siswa;
 use App\Models\Pembimbing;
 use App\Models\Industri;
@@ -14,6 +15,7 @@ use App\Models\Info;
 use App\Models\Bimbingan;
 use App\Models\Nilai;
 use App\Models\ChatDudiPembimbing;
+use App\Models\Setting;
 
 class DashboardController extends Controller
 {
@@ -67,12 +69,75 @@ class DashboardController extends Controller
             $chartData[]   = isset($absensiPerHari[$key]) ? $absensiPerHari[$key]->total : 0;
         }
 
+        // Grafik PKL per tahun (berdasarkan tabel tempat)
+        $pklPerTahun = Tempat::select('tahun', DB::raw('COUNT(*) as total'))
+            ->groupBy('tahun')
+            ->orderBy('tahun')
+            ->get();
+
+        $chartPklTahunLabels = $pklPerTahun->pluck('tahun');
+        $chartPklTahunData   = $pklPerTahun->pluck('total');
+
+        // Industri terfavorit (berdasarkan jumlah tempat)
+        $industriFavorit = Industri::withCount('tempat')
+            ->orderByDesc('tempat_count')
+            ->limit(5)
+            ->get();
+
+        $chartIndustriLabels = $industriFavorit->pluck('nama_industri');
+        $chartIndustriData   = $industriFavorit->pluck('tempat_count');
+
+        // Tingkat kelulusan berdasarkan nilai akhir dan setting pkl_min_grade
+        $pklMinGrade = (float) (Setting::get('pkl_min_grade') ?? 0);
+
+        $totalLulus = Nilai::whereNotNull('nilai_akhir')
+            ->where('nilai_akhir', '>=', $pklMinGrade)
+            ->count();
+
+        $totalTidakLulus = Nilai::whereNotNull('nilai_akhir')
+            ->where('nilai_akhir', '<', $pklMinGrade)
+            ->count();
+
+        // Absensi per jurusan
+        $absensiByJurusan = Absensi::with('siswa.kelas.jurusan')->get()
+            ->groupBy(function ($item) {
+                return optional(optional(optional($item->siswa)->kelas)->jurusan)->nama ?? 'Tidak diketahui';
+            })
+            ->map(function ($group) {
+                return $group->count();
+            });
+
+        $chartAbsensiJurusanLabels = $absensiByJurusan->keys();
+        $chartAbsensiJurusanData   = $absensiByJurusan->values();
+
+        // Jurnal per jurusan
+        $jurnalByJurusan = Jurnal::with('siswa.kelas.jurusan')->get()
+            ->groupBy(function ($item) {
+                return optional(optional(optional($item->siswa)->kelas)->jurusan)->nama ?? 'Tidak diketahui';
+            })
+            ->map(function ($group) {
+                return $group->count();
+            });
+
+        $chartJurnalJurusanLabels = $jurnalByJurusan->keys();
+        $chartJurnalJurusanData   = $jurnalByJurusan->values();
+
         $latestInfos = Info::orderBy('tanggal', 'desc')->limit(5)->get();
 
         return view('dashboard.admin', array_merge($stats, [
-            'chart_labels' => $chartLabels,
-            'chart_data'   => $chartData,
-            'latest_infos' => $latestInfos,
+            'chart_labels'            => $chartLabels,
+            'chart_data'              => $chartData,
+            'chart_pkl_tahun_labels'  => $chartPklTahunLabels,
+            'chart_pkl_tahun_data'    => $chartPklTahunData,
+            'chart_industri_labels'   => $chartIndustriLabels,
+            'chart_industri_data'     => $chartIndustriData,
+            'total_lulus'             => $totalLulus,
+            'total_tidak_lulus'       => $totalTidakLulus,
+            'chart_absensi_jur_labels'=> $chartAbsensiJurusanLabels,
+            'chart_absensi_jur_data'  => $chartAbsensiJurusanData,
+            'chart_jurnal_jur_labels' => $chartJurnalJurusanLabels,
+            'chart_jurnal_jur_data'   => $chartJurnalJurusanData,
+            'latest_infos'            => $latestInfos,
         ]));
     }
 

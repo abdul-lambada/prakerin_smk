@@ -6,15 +6,116 @@ use App\Http\Controllers\Controller;
 use App\Models\Nilai;
 use App\Models\Tempat;
 use App\Models\Setting;
+use App\Models\Jurusan;
+use App\Models\Kelas;
+use App\Models\Industri;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 
 class NilaiController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $nilais = Nilai::with('tempat.siswa')->get();
-        return view('admin.nilai.index', compact('nilais'));
+        $filters = [
+            'jurusan' => $request->query('jurusan'),
+            'kelas' => $request->query('kelas'),
+            'tahun' => $request->query('tahun'),
+            'industri' => $request->query('industri'),
+        ];
+
+        $query = Nilai::with(['tempat.siswa.kelas.jurusan', 'tempat.industri']);
+
+        if ($filters['jurusan']) {
+            $query->whereHas('tempat.siswa.kelas.jurusan', function ($q) use ($filters) {
+                $q->where('kd_jurusan', $filters['jurusan']);
+            });
+        }
+
+        if ($filters['kelas']) {
+            $query->whereHas('tempat.siswa.kelas', function ($q) use ($filters) {
+                $q->where('kd_kelas', $filters['kelas']);
+            });
+        }
+
+        if ($filters['tahun']) {
+            $query->whereHas('tempat', function ($q) use ($filters) {
+                $q->where('tahun', $filters['tahun']);
+            });
+        }
+
+        if ($filters['industri']) {
+            $query->whereHas('tempat.industri', function ($q) use ($filters) {
+                $q->where('kd_industri', $filters['industri']);
+            });
+        }
+
+        $nilais = $query->get();
+
+        $rekap = [
+            'total' => $nilais->count(),
+            'rata_nilai_akhir' => round((float) $nilais->avg('nilai_akhir'), 2),
+        ];
+
+        $rekapPerJurusan = $nilais
+            ->groupBy(function ($item) {
+                return optional(optional(optional($item->tempat)->siswa)->kelas)->jurusan->nama ?? 'Tidak diketahui';
+            })
+            ->map(function ($group) {
+                return [
+                    'jumlah' => $group->count(),
+                    'rata_nilai_akhir' => round((float) $group->avg('nilai_akhir'), 2),
+                ];
+            });
+
+        $rekapPerTahun = $nilais
+            ->groupBy(function ($item) {
+                return optional($item->tempat)->tahun ?? 'Tidak diketahui';
+            })
+            ->map(function ($group) {
+                return [
+                    'jumlah' => $group->count(),
+                    'rata_nilai_akhir' => round((float) $group->avg('nilai_akhir'), 2),
+                ];
+            });
+
+        // Rekap per industri: total, lulus, tidak lulus (berdasarkan nilai_akhir >= pkl_min_grade jika di-set)
+        $pklMinGrade = (float) (Setting::get('pkl_min_grade') ?? 0);
+
+        $rekapPerIndustri = $nilais
+            ->groupBy(function ($item) {
+                return optional(optional($item->tempat)->industri)->nama_industri ?? 'Tidak diketahui';
+            })
+            ->map(function ($group) use ($pklMinGrade) {
+                $total = $group->count();
+                $lulus = $group->filter(function ($n) use ($pklMinGrade) {
+                    return $n->nilai_akhir !== null && $n->nilai_akhir >= $pklMinGrade;
+                })->count();
+                $tidakLulus = $total - $lulus;
+
+                return [
+                    'total' => $total,
+                    'lulus' => $lulus,
+                    'tidak_lulus' => $tidakLulus,
+                ];
+            });
+
+        $jurusans = Jurusan::orderBy('nama')->get();
+        $kelasList = Kelas::orderBy('nama')->get();
+        $industris = Industri::orderBy('nama_industri')->get();
+        $tahunList = Tempat::select('tahun')->distinct()->orderBy('tahun', 'desc')->pluck('tahun');
+
+        return view('admin.nilai.index', compact(
+            'nilais',
+            'filters',
+            'rekap',
+            'rekapPerJurusan',
+            'rekapPerTahun',
+            'rekapPerIndustri',
+            'jurusans',
+            'kelasList',
+            'industris',
+            'tahunList'
+        ));
     }
 
     public function create()
@@ -88,6 +189,97 @@ class NilaiController extends Controller
         $nilai->delete();
 
         return redirect()->route('admin.nilai.index')->with('status', 'Nilai PKL berhasil dihapus.');
+    }
+
+    public function exportCsv(Request $request)
+    {
+        // Gunakan logika filter yang sama dengan index
+        $filters = [
+            'jurusan' => $request->query('jurusan'),
+            'kelas' => $request->query('kelas'),
+            'tahun' => $request->query('tahun'),
+            'industri' => $request->query('industri'),
+        ];
+
+        $query = Nilai::with(['tempat.siswa.kelas.jurusan', 'tempat.industri']);
+
+        if ($filters['jurusan']) {
+            $query->whereHas('tempat.siswa.kelas.jurusan', function ($q) use ($filters) {
+                $q->where('kd_jurusan', $filters['jurusan']);
+            });
+        }
+
+        if ($filters['kelas']) {
+            $query->whereHas('tempat.siswa.kelas', function ($q) use ($filters) {
+                $q->where('kd_kelas', $filters['kelas']);
+            });
+        }
+
+        if ($filters['tahun']) {
+            $query->whereHas('tempat', function ($q) use ($filters) {
+                $q->where('tahun', $filters['tahun']);
+            });
+        }
+
+        if ($filters['industri']) {
+            $query->whereHas('tempat.industri', function ($q) use ($filters) {
+                $q->where('kd_industri', $filters['industri']);
+            });
+        }
+
+        $nilais = $query->get();
+
+        $filename = 'nilai-pkl-'.date('Ymd_His').'.csv';
+
+        $headers = [
+            'Content-Type' => 'text/csv',
+            'Content-Disposition' => "attachment; filename=\"{$filename}\"",
+        ];
+
+        $callback = function () use ($nilais) {
+            $handle = fopen('php://output', 'w');
+
+            fputcsv($handle, [
+                'Tempat / Industri',
+                'Nama Siswa',
+                'Jurusan',
+                'Kelas',
+                'Tahun PKL',
+                'Nilai DU/DI',
+                'Nilai Sidang',
+                'Bobot DU/DI',
+                'Bobot Sidang',
+                'Nilai Akhir',
+                'Predikat',
+                'Keterangan',
+            ]);
+
+            foreach ($nilais as $item) {
+                $siswa = optional(optional($item->tempat)->siswa);
+                $kelas = optional($siswa->kelas);
+                $jurusan = optional($kelas->jurusan);
+                $industri = optional(optional($item->tempat)->industri);
+
+                fputcsv($handle, [
+                    $industri->nama_industri,
+                    $siswa->nama_lengkap,
+                    $jurusan->nama,
+                    $kelas->nama,
+                    optional($item->tempat)->tahun,
+                    $item->nilai_du_di,
+                    $item->nilai_sidang,
+                    $item->bobot_du_di,
+                    $item->bobot_sidang,
+                    $item->nilai_akhir,
+                    $item->predikat,
+                    $item->keterangan,
+                ]);
+            }
+
+            fclose($handle);
+        };
+
+        return response()->stream($callback, 200, $headers);
     }
 
     public function cetakPdf()

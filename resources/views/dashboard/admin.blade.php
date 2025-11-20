@@ -73,6 +73,34 @@
 </div>
 
 <div class="row">
+    <div class="col-xl-6 col-lg-6">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary">Absensi per Jurusan</h6>
+            </div>
+            <div class="card-body">
+                <div class="chart-area">
+                    <canvas id="absensiJurusanChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-6 col-lg-6">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary">Jurnal per Jurusan</h6>
+            </div>
+            <div class="card-body">
+                <div class="chart-area">
+                    <canvas id="jurnalJurusanChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
     <div class="col-xl-3 col-md-6 mb-4">
         <div class="card border-left-primary shadow h-100 py-2">
             <div class="card-body">
@@ -139,7 +167,7 @@
 </div>
 
 <div class="row">
-    <div class="col-xl-8 col-lg-7">
+    <div class="col-xl-6 col-lg-6">
         <div class="card shadow mb-4">
             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                 <h6 class="m-0 font-weight-bold text-primary">Grafik Absensi 7 Hari Terakhir</h6>
@@ -152,6 +180,49 @@
         </div>
     </div>
 
+    <div class="col-xl-6 col-lg-6">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary">PKL per Tahun</h6>
+            </div>
+            <div class="card-body">
+                <div class="chart-area">
+                    <canvas id="pklPerTahunChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xl-6 col-lg-6">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary">Industri Terfavorit</h6>
+            </div>
+            <div class="card-body">
+                <div class="chart-area">
+                    <canvas id="industriFavoritChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-6 col-lg-6">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary">Tingkat Kelulusan PKL</h6>
+            </div>
+            <div class="card-body">
+                <div class="chart-area">
+                    <canvas id="lulusChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
     <div class="col-xl-4 col-lg-5">
         <div class="card shadow mb-4">
             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
@@ -178,8 +249,8 @@
 @push('scripts')
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-    const ctx = document.getElementById('absensiChart').getContext('2d');
-    const absensiChart = new Chart(ctx, {
+    const ctxAbsensi = document.getElementById('absensiChart').getContext('2d');
+    const absensiChart = new Chart(ctxAbsensi, {
         type: 'line',
         data: {
             labels: @json($chart_labels),
@@ -204,6 +275,128 @@
                     beginAtZero: true,
                     ticks: { precision: 0 }
                 }
+            }
+        }
+    });
+
+    const ctxPklTahun = document.getElementById('pklPerTahunChart').getContext('2d');
+    new Chart(ctxPklTahun, {
+        type: 'bar',
+        data: {
+            labels: @json($chart_pkl_tahun_labels),
+            datasets: [{
+                label: 'Jumlah Penempatan',
+                data: @json($chart_pkl_tahun_data),
+                backgroundColor: 'rgba(28, 200, 138, 0.6)',
+                borderColor: 'rgba(28, 200, 138, 1)',
+                borderWidth: 1,
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: {
+                y: { beginAtZero: true, ticks: { precision: 0 } }
+            }
+        }
+    });
+
+    const ctxIndustri = document.getElementById('industriFavoritChart').getContext('2d');
+    new Chart(ctxIndustri, {
+        type: 'bar',
+        data: {
+            labels: @json($chart_industri_labels),
+            datasets: [{
+                label: 'Jumlah Siswa PKL',
+                data: @json($chart_industri_data),
+                backgroundColor: 'rgba(54, 185, 204, 0.6)',
+                borderColor: 'rgba(54, 185, 204, 1)',
+                borderWidth: 1,
+            }]
+        },
+        options: {
+            indexAxis: 'y',
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: {
+                x: { beginAtZero: true, ticks: { precision: 0 } }
+            }
+        }
+    });
+
+    const ctxLulus = document.getElementById('lulusChart').getContext('2d');
+    new Chart(ctxLulus, {
+        type: 'doughnut',
+        data: {
+            labels: ['Lulus', 'Tidak Lulus'],
+            datasets: [{
+                data: [{{ $total_lulus }}, {{ $total_tidak_lulus }}],
+                backgroundColor: [
+                    'rgba(78, 115, 223, 0.8)',
+                    'rgba(231, 74, 59, 0.8)',
+                ],
+                borderColor: [
+                    'rgba(78, 115, 223, 1)',
+                    'rgba(231, 74, 59, 1)',
+                ],
+                borderWidth: 1,
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { position: 'bottom' }
+            }
+        }
+    });
+
+    const ctxAbsensiJur = document.getElementById('absensiJurusanChart').getContext('2d');
+    new Chart(ctxAbsensiJur, {
+        type: 'bar',
+        data: {
+            labels: @json($chart_absensi_jur_labels),
+            datasets: [{
+                label: 'Jumlah Absensi',
+                data: @json($chart_absensi_jur_data),
+                backgroundColor: 'rgba(78, 115, 223, 0.6)',
+                borderColor: 'rgba(78, 115, 223, 1)',
+                borderWidth: 1,
+            }]
+        },
+        options: {
+            indexAxis: 'y',
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: {
+                x: { beginAtZero: true, ticks: { precision: 0 } }
+            }
+        }
+    });
+
+    const ctxJurnalJur = document.getElementById('jurnalJurusanChart').getContext('2d');
+    new Chart(ctxJurnalJur, {
+        type: 'bar',
+        data: {
+            labels: @json($chart_jurnal_jur_labels),
+            datasets: [{
+                label: 'Jumlah Jurnal',
+                data: @json($chart_jurnal_jur_data),
+                backgroundColor: 'rgba(28, 200, 138, 0.6)',
+                borderColor: 'rgba(28, 200, 138, 1)',
+                borderWidth: 1,
+            }]
+        },
+        options: {
+            indexAxis: 'y',
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: {
+                x: { beginAtZero: true, ticks: { precision: 0 } }
             }
         }
     });

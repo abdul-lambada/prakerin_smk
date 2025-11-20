@@ -6,6 +6,7 @@
     @php
         $appName = \App\Models\Setting::get('app_name', 'PKL SMK');
         $appLogo = \App\Models\Setting::get('app_logo');
+        $primaryColor = \App\Models\Setting::get('theme_color_primary', '#4e73df');
     @endphp
     <title>@yield('title', $appName)</title>
 
@@ -16,6 +17,35 @@
     <!-- Custom fonts and styles for this template-->
     <link href="{{ asset('sb-admin-2/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ asset('sb-admin-2/css/sb-admin-2.min.css') }}" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-color: {{ $primaryColor ?: '#4e73df' }};
+        }
+
+        .bg-gradient-primary {
+            background-color: var(--primary-color) !important;
+            background-image: none !important;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color) !important;
+            border-color: var(--primary-color) !important;
+        }
+
+        .btn-outline-primary {
+            color: var(--primary-color) !important;
+            border-color: var(--primary-color) !important;
+        }
+
+        a {
+            color: var(--primary-color);
+        }
+
+        a:hover {
+            color: var(--primary-color);
+        }
+    </style>
 
     @stack('styles')
 </head>
@@ -331,6 +361,14 @@
                         </div>
                     @endif
 
+                    @hasSection('breadcrumb')
+                        <nav aria-label="breadcrumb" class="mb-3">
+                            <ol class="breadcrumb bg-white px-0 mb-0">
+                                @yield('breadcrumb')
+                            </ol>
+                        </nav>
+                    @endif
+
                     @yield('content')
                 </div>
                 <!-- /.container-fluid -->
@@ -360,6 +398,41 @@
     <script src="{{ asset('sb-admin-2/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('sb-admin-2/vendor/jquery-easing/jquery.easing.min.js') }}"></script>
     <script src="{{ asset('sb-admin-2/js/sb-admin-2.min.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        @if(session('status'))
+            Swal.fire({
+                toast: true,
+                position: 'top-end',
+                icon: 'success',
+                title: @json(session('status')),
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+            });
+        @endif
+
+        @if(session('error'))
+            Swal.fire({
+                toast: true,
+                position: 'top-end',
+                icon: 'error',
+                title: @json(session('error')),
+                showConfirmButton: false,
+                timer: 4000,
+                timerProgressBar: true,
+            });
+        @endif
+
+        @if($errors->any())
+            Swal.fire({
+                icon: 'error',
+                title: 'Terjadi kesalahan',
+                html: @json(implode('<br>', $errors->all())),
+            });
+        @endif
+    </script>
 
     @stack('scripts')
 </body>

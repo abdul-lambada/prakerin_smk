@@ -2,6 +2,12 @@
 
 @section('title', 'Pengaturan Aplikasi')
 
+@section('breadcrumb')
+    <li class="breadcrumb-item"><a href="{{ route('dashboard.admin') }}">Dashboard</a></li>
+    <li class="breadcrumb-item">Manajemen</li>
+    <li class="breadcrumb-item active" aria-current="page">Pengaturan</li>
+@endsection
+
 @section('content')
 <h1 class="h3 mb-4 text-gray-800">Pengaturan Aplikasi</h1>
 

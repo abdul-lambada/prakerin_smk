@@ -6,6 +6,12 @@
 <link href="{{ asset('sb-admin-2/vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
 @endpush
 
+@section('breadcrumb')
+    <li class="breadcrumb-item"><a href="{{ route('dashboard.admin') }}">Dashboard</a></li>
+    <li class="breadcrumb-item">Manajemen</li>
+    <li class="breadcrumb-item active" aria-current="page">Data Pembimbing</li>
+@endsection
+
 @section('content')
 <h1 class="h3 mb-4 text-gray-800">Data Pembimbing</h1>
 
