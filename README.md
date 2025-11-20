@@ -7,53 +7,119 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
-## About Laravel
+## Sistem Informasi Prakerin SMK
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Aplikasi ini adalah **Sistem Informasi Praktik Kerja Lapangan (Prakerin)** untuk SMK, dibangun dengan Laravel. Portal ini digunakan oleh:
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- **Siswa** – mengajukan / melihat tempat Prakerin, mengisi absensi harian, jurnal, mengunggah laporan, dan melihat bimbingan.
+- **Pembimbing Sekolah** – memantau absensi & jurnal, melakukan monitoring lapangan Prakerin, mengelola bimbingan, nilai, dan laporan.
+- **Mitra Industri (DUDI)** – melihat siswa Prakerin di industrinya dan mengisi penilaian.
+- **Admin** – mengelola data master (siswa, pembimbing, industri, kelas/jurusan, user), penempatan Prakerin, laporan, monitoring, dan pengaturan aplikasi.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Istilah utama yang digunakan di aplikasi adalah **Prakerin** (Praktik Kerja Lapangan).
 
-## Learning Laravel
+---
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+## Fitur Utama
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+- **Manajemen Data**
+  - Data siswa, pembimbing, user, jurusan, kelas.
+  - Data industri mitra dan penempatan Prakerin (tabel `Tempat`).
 
-## Laravel Sponsors
+- **Portal Siswa**
+  - Lihat tempat Prakerin.
+  - Isi absensi harian dan jurnal kegiatan.
+  - Unggah laporan Prakerin.
+  - Ruang bimbingan dengan pembimbing.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+- **Portal Pembimbing**
+  - Monitoring harian (absensi & jurnal) siswa bimbingan.
+  - **Monitoring Lapangan Prakerin** (kunjungan ke industri).
+  - Bimbingan & penilaian siswa.
 
-### Premium Partners
+- **Portal DUDI**
+  - Daftar siswa Prakerin di industri.
+  - Input nilai DU/DI.
+  - Chat dengan pembimbing sekolah.
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+- **Portal Publik**
+  - Beranda dengan ringkasan Prakerin.
+  - Daftar industri Prakerin.
+  - Info & pengumuman Prakerin.
 
-## Contributing
+---
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## Instalasi & Menjalankan Aplikasi
 
-## Code of Conduct
+1. **Clone repositori & install dependency**
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+   ```bash
+   composer install
+   # opsional, jika ingin mengelola asset frontend manual:
+   # npm install && npm run dev
+   ```
 
-## Security Vulnerabilities
+2. **Konfigurasi environment**
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+   ```bash
+   cp .env.example .env
+   php artisan key:generate
+   ```
 
-## License
+   Lalu sesuaikan koneksi database di `.env` (`DB_DATABASE`, `DB_USERNAME`, `DB_PASSWORD`).
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+3. **Migrasi database (& seeding jika ada)**
+
+   ```bash
+   php artisan migrate
+   # php artisan db:seed    # jika disediakan seeder
+   ```
+
+4. **Link storage** (untuk upload foto/lampiran)
+
+   ```bash
+   php artisan storage:link
+   ```
+
+5. **Jalankan aplikasi**
+
+   ```bash
+   php artisan serve
+   ```
+
+   Di lingkungan **Laragon**, project ini diasumsikan berada di `c:/laragon/www/prakerin_smk` dan bisa diakses via virtual host Laragon.
+
+---
+
+## Struktur Folder Penting
+
+Hanya ringkasan direktori yang paling sering disentuh saat pengembangan:
+
+- `app/Models`
+  - Model utama: `Siswa`, `Pembimbing`, `Industri`, `Tempat`, `Absensi`, `Jurnal`, `Laporan`, `Monitoring`, `Bimbingan`, `Nilai`, `Setting`, `Info`.
+
+- `app/Http/Controllers`
+  - `DashboardController` – logika dashboard per role.
+  - `PublicController` – halaman publik (beranda, info, industri, kontak).
+  - `Siswa*Controller` – fitur siswa (tempat, absensi, jurnal, laporan, bimbingan, info).
+  - `Pembimbing*Controller` – fitur pembimbing (monitoring harian, monitoring lapangan Prakerin, bimbingan, nilai, laporan sidang, chat DUDI, info).
+  - `Admin/*` – modul admin (data master, penempatan, laporan, nilai, sidang, absensi, jurnal, info, settings, monitoring).
+  - `Dudi*Controller` – fitur DUDI (siswa, nilai, chat).
+
+- `resources/views`
+  - `layouts/app.blade.php` – layout area internal (admin/pembimbing/siswa/DUDI).
+  - `layouts/public.blade.php` – layout halaman publik.
+  - `public/` – halaman publik: beranda, info Prakerin, daftar industri Prakerin, detail industri, tentang, kontak.
+  - `dashboard/` – tampilan dashboard untuk `admin`, `pembimbing`, `siswa`, `dudi`.
+  - `siswa/`, `pembimbing/`, `admin/`, `dudi/` – view per role.
+
+- `routes/web.php`
+  - Definisi route utama, dipisah per role: publik, admin, pembimbing, siswa, DUDI.
+
+---
+
+## Lisensi
+
+Aplikasi ini dibangun menggunakan framework **Laravel** yang dirilis di bawah lisensi [MIT](https://opensource.org/licenses/MIT).
+
+Hak cipta isi dan data aplikasi mengikuti ketentuan yang berlaku di lingkungan sekolah masing-masing.
