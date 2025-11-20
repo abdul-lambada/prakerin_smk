@@ -57,6 +57,14 @@
         <!-- Sidebar -->
         @php
             $role = auth()->user()->role ?? null;
+            $dashboardRouteName = match ($role) {
+                'admin'      => 'dashboard.admin',
+                'pembimbing' => 'dashboard.pembimbing',
+                'siswa'      => 'dashboard.siswa',
+                'dudi'       => 'dashboard.dudi',
+                default      => 'dashboard.index',
+            };
+            $isDashboardActive = request()->routeIs($dashboardRouteName);
         @endphp
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
@@ -71,8 +79,8 @@
             <hr class="sidebar-divider my-0">
 
             <!-- Menu umum -->
-            <li class="nav-item">
-                <a class="nav-link" href="{{ route('dashboard.index') }}">
+            <li class="nav-item {{ $isDashboardActive ? 'active' : '' }}">
+                <a class="nav-link" href="{{ route($dashboardRouteName) }}">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span>
                 </a>
