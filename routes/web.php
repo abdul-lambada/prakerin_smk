@@ -74,8 +74,12 @@ Route::middleware('auth')->group(function () {
         Route::get('/dashboard/admin', [DashboardController::class, 'admin'])->name('dashboard.admin');
 
         Route::resource('admin/siswa', AdminSiswaController::class)->names('admin.siswa');
+        Route::post('admin/siswa/import', [AdminSiswaController::class, 'import'])->name('admin.siswa.import');
+        Route::get('admin/siswa/template', [AdminSiswaController::class, 'downloadTemplate'])->name('admin.siswa.template');
         Route::resource('admin/industri', AdminIndustriController::class)->names('admin.industri');
         Route::resource('admin/pembimbing', AdminPembimbingController::class)->names('admin.pembimbing');
+        Route::post('admin/pembimbing/import', [AdminPembimbingController::class, 'import'])->name('admin.pembimbing.import');
+        Route::get('admin/pembimbing/template', [AdminPembimbingController::class, 'downloadTemplate'])->name('admin.pembimbing.template');
         Route::resource('admin/jurusan', AdminJurusanController::class)->names('admin.jurusan');
         Route::resource('admin/kelas', AdminKelasController::class)->names('admin.kelas');
         Route::resource('admin/user', AdminUserController::class)->names('admin.user');

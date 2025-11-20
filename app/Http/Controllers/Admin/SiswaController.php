@@ -8,6 +8,9 @@ use App\Models\Pembimbing;
 use App\Models\Siswa;
 use App\Models\User;
 use Illuminate\Http\Request;
+use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 class SiswaController extends Controller
 {
@@ -70,5 +73,126 @@ class SiswaController extends Controller
         $siswa->delete();
 
         return redirect()->route('admin.siswa.index')->with('status', 'Data siswa berhasil dihapus.');
+    }
+
+    public function import(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|file|mimes:csv,txt,xlsx,xls',
+        ]);
+
+        $path = $request->file('file')->getRealPath();
+
+        $extension = strtolower($request->file('file')->getClientOriginalExtension());
+
+        $rows = [];
+
+        if (in_array($extension, ['csv', 'txt'], true)) {
+            $handle = fopen($path, 'r');
+            if (! $handle) {
+                return redirect()->back()->with('error', 'Tidak dapat membaca file yang diupload.');
+            }
+
+            // Baris pertama header
+            $header = fgetcsv($handle, 0, ',');
+
+            while (($row = fgetcsv($handle, 0, ',')) !== false) {
+                $rows[] = $row;
+            }
+
+            fclose($handle);
+        } else {
+            // Menggunakan PhpSpreadsheet untuk Excel
+            try {
+                $spreadsheet = IOFactory::load($path);
+            } catch (\Throwable $e) {
+                return redirect()->back()->with('error', 'Gagal membaca file Excel: '.$e->getMessage());
+            }
+
+            $sheet = $spreadsheet->getActiveSheet();
+            $highestRow = $sheet->getHighestRow();
+            $highestColumn = $sheet->getHighestColumn();
+
+            // Asumsi baris 1 adalah header, mulai dari baris 2
+            for ($row = 2; $row <= $highestRow; $row++) {
+                $rowData = $sheet->rangeToArray('A'.$row.':'.$highestColumn.$row, null, true, true, true)[0];
+                // Ambil kolom A-E sebagai [nis, nama, kd_kelas, kd_pembimbing, telp]
+                $rows[] = [
+                    $rowData['A'] ?? null,
+                    $rowData['B'] ?? null,
+                    $rowData['C'] ?? null,
+                    $rowData['D'] ?? null,
+                    $rowData['E'] ?? null,
+                ];
+            }
+        }
+
+        $imported = 0;
+
+        foreach ($rows as $row) {
+            if (count($row) < 5) {
+                continue;
+            }
+
+            [$nis, $namaLengkap, $kdKelas, $kdPembimbing, $telp] = $row;
+
+            if (! $nis || ! $namaLengkap || ! $kdKelas || ! $kdPembimbing) {
+                continue;
+            }
+
+            $nis = trim((string) $nis);
+            $namaLengkap = trim((string) $namaLengkap);
+
+            // Buat / ambil user siswa
+            $user = User::firstOrCreate(
+                ['username' => $nis],
+                [
+                    'name'      => $namaLengkap,
+                    'identitas' => $nis,
+                    'role'      => 'siswa',
+                    // cast hashed akan meng-hash otomatis
+                    'password'  => (string) $nis,
+                ]
+            );
+
+            // Buat / update data siswa
+            Siswa::updateOrCreate(
+                ['nis_siswa' => $nis],
+                [
+                    'user_id'       => $user->id,
+                    'kd_kelas'      => $kdKelas,
+                    'kd_pembimbing' => $kdPembimbing,
+                    'nama_lengkap'  => $namaLengkap,
+                    'telp'          => $telp,
+                ]
+            );
+
+            $imported++;
+        }
+
+        return redirect()->route('admin.siswa.index')
+            ->with('status', "Import selesai. Data siswa yang diproses: {$imported}.");
+    }
+
+    public function downloadTemplate()
+    {
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+
+        // Header
+        $sheet->setCellValue('A1', 'nis_siswa');
+        $sheet->setCellValue('B1', 'nama_lengkap');
+        $sheet->setCellValue('C1', 'kd_kelas');
+        $sheet->setCellValue('D1', 'kd_pembimbing');
+        $sheet->setCellValue('E1', 'telp');
+
+        $writer = new Xlsx($spreadsheet);
+
+        $fileName = 'template-import-siswa.xlsx';
+        return response()->streamDownload(function () use ($writer) {
+            $writer->save('php://output');
+        }, $fileName, [
+            'Content-Type' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        ]);
     }
 }

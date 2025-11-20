@@ -19,10 +19,35 @@
     <div class="alert alert-success">{{ session('status') }}</div>
 @endif
 
+<div class="card mb-3">
+    <div class="card-body">
+        <div class="row align-items-center">
+            <div class="col-md-8 mb-3 mb-md-0">
+                <form action="{{ route('admin.pembimbing.import') }}" method="POST" enctype="multipart/form-data" class="d-flex flex-column flex-md-row align-items-md-center">
+                    @csrf
+                    <div class="custom-file custom-file-sm w-100 w-md-auto" style="max-width: 260px;">
+                        <input type="file" name="file" class="custom-file-input" id="fileImportPembimbing" required>
+                        <label class="custom-file-label" for="fileImportPembimbing">Pilih Excel/CSV</label>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-sm mt-2 mt-md-0 ml-md-2">
+                        <i class="fas fa-file-import"></i> Import
+                    </button>
+                </form>
+                <small class="text-muted d-block mt-1">Gunakan template import yang bisa di-download di samping.</small>
+            </div>
+            <div class="col-md-4 text-md-right">
+                <a href="{{ route('admin.pembimbing.template') }}" class="btn btn-outline-secondary btn-sm mr-2 mb-1">
+                    <i class="fas fa-download"></i> Download Template
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="card shadow mb-4">
     <div class="card-header py-3 d-flex justify-content-between align-items-center">
         <h6 class="m-0 font-weight-bold text-primary">Daftar Pembimbing</h6>
-        <a href="{{ route('admin.pembimbing.create') }}" class="btn btn-primary btn-sm">
+        <a href="{{ route('admin.pembimbing.create') }}" class="btn btn-primary btn-sm mb-1">
             <i class="fas fa-plus"></i> Tambah Pembimbing
         </a>
     </div>
