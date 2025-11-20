@@ -8,8 +8,20 @@
         <div class="card o-hidden border-0 shadow-lg my-5">
             <div class="card-body p-0">
                 <div class="p-5">
-                    <div class="text-center">
-                        <h1 class="h4 text-gray-900 mb-4">Login Admin / Pembimbing</h1>
+                    <div class="text-center mb-3">
+                        @php
+                            $appLogo = \App\Models\Setting::get('app_logo');
+                            $schoolName = \App\Models\Setting::get('school_name', 'SMK');
+                            $appName = \App\Models\Setting::get('app_name', 'Sistem Informasi PKL');
+                        @endphp
+                        @if ($appLogo)
+                            <div class="mb-2">
+                                <img src="{{ asset($appLogo) }}" alt="Logo" style="max-height:60px;">
+                            </div>
+                        @endif
+                        <h1 class="h5 text-gray-900 mb-1">{{ $schoolName }}</h1>
+                        <div class="small text-muted mb-2">{{ $appName }}</div>
+                        <h2 class="h5 text-gray-900 mb-3">Login Admin / Pembimbing</h2>
                     </div>
                     <form method="POST" action="{{ route('login.admin.submit') }}">
                         @csrf

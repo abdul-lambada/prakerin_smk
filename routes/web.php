@@ -16,6 +16,7 @@ use App\Http\Controllers\Admin\LaporanController as AdminLaporanController;
 use App\Http\Controllers\Admin\SettingController as AdminSettingController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\PublicController;
 use App\Http\Controllers\PembimbingSiswaController;
 use App\Http\Controllers\PembimbingMonitoringController;
 use App\Http\Controllers\PembimbingNilaiController;
@@ -35,10 +36,14 @@ use App\Http\Controllers\DudiChatController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
-// Redirect root ke halaman login admin/pembimbing
-Route::get('/', function () {
-    return redirect()->route('login.admin');
-});
+// Halaman publik
+Route::get('/', [PublicController::class, 'home'])->name('public.home');
+Route::get('/industri', [PublicController::class, 'industri'])->name('public.industri');
+Route::get('/industri/{industri}', [PublicController::class, 'showIndustry'])->name('public.industri.show');
+Route::get('/info', [PublicController::class, 'info'])->name('public.info');
+Route::get('/info/{info}', [PublicController::class, 'showInfo'])->name('public.info.show');
+Route::get('/tentang-pkl', [PublicController::class, 'about'])->name('public.about');
+Route::get('/kontak', [PublicController::class, 'contact'])->name('public.contact');
 
 // Halaman login admin & pembimbing
 Route::get('/login', function () {
