@@ -116,7 +116,7 @@
                         <tr>
                             <td>{{ optional($item->tanggal)->format('d-m-Y') }}</td>
                             <td>{{ optional($item->siswa)->nama_lengkap }}</td>
-                            <td>{{ optional($item->tempat)->kd_tempat }}</td>
+                            <td>{{ optional(optional($item->tempat)->industri)->nama_industri ?? '-' }}</td>
                             <td>{{ $item->jam_masuk }}</td>
                             <td>{{ $item->jam_keluar }}</td>
                             <td>{{ $item->status }}</td>
@@ -125,7 +125,7 @@
                                     data-toggle="modal" data-target="#detailAbsensiModal"
                                     data-tanggal="{{ optional($item->tanggal)->format('d-m-Y') }}"
                                     data-siswa="{{ optional($item->siswa)->nama_lengkap }}"
-                                    data-tempat="{{ optional($item->tempat)->kd_tempat }}"
+                                    data-tempat="{{ optional(optional($item->tempat)->industri)->nama_industri ?? '-' }}"
                                     data-jam-masuk="{{ $item->jam_masuk }}"
                                     data-jam-keluar="{{ $item->jam_keluar }}"
                                     data-status="{{ $item->status }}"
@@ -178,7 +178,7 @@
                         <tr>
                             <td>{{ optional($item->tanggal)->format('d-m-Y') }}</td>
                             <td>{{ optional($item->siswa)->nama_lengkap }}</td>
-                            <td>{{ optional($item->tempat)->kd_tempat }}</td>
+                            <td>{{ optional(optional($item->tempat)->industri)->nama_industri ?? '-' }}</td>
                             <td>{{ $item->jam_mulai }}</td>
                             <td>{{ $item->jam_selesai }}</td>
                             <td>{{ $item->kegiatan }}</td>
@@ -187,7 +187,7 @@
                                     data-toggle="modal" data-target="#detailJurnalModal"
                                     data-tanggal="{{ optional($item->tanggal)->format('d-m-Y') }}"
                                     data-siswa="{{ optional($item->siswa)->nama_lengkap }}"
-                                    data-tempat="{{ optional($item->tempat)->kd_tempat }}"
+                                    data-tempat="{{ optional(optional($item->tempat)->industri)->nama_industri ?? '-' }}"
                                     data-jam-mulai="{{ $item->jam_mulai }}"
                                     data-jam-selesai="{{ $item->jam_selesai }}"
                                     data-kegiatan="{{ $item->kegiatan }}"

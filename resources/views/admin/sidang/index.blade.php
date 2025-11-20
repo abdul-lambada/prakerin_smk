@@ -33,7 +33,7 @@
                     <tr>
                         <th>Tanggal</th>
                         <th>Siswa</th>
-                        <th>Tempat</th>
+                        <th>KOde Tempat</th>
                         <th>Industri</th>
                         <th>Nilai</th>
                         <th>Keterangan</th>

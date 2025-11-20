@@ -38,7 +38,7 @@
                     @foreach($absensis as $item)
                         <tr>
                             <td>{{ optional($item->tanggal)->format('d-m-Y') }}</td>
-                            <td>{{ optional($item->tempat)->kd_tempat }}</td>
+                            <td>{{ optional(optional($item->tempat)->industri)->nama_industri ?? '-' }}</td>
                             <td>{{ $item->jam_masuk }}</td>
                             <td>{{ $item->jam_keluar }}</td>
                             <td>{{ $item->status }}</td>

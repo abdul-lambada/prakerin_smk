@@ -36,7 +36,7 @@
                     @foreach($jurnals as $item)
                         <tr>
                             <td>{{ optional($item->tanggal)->format('d-m-Y') }}</td>
-                            <td>{{ optional($item->tempat)->kd_tempat }}</td>
+                            <td>{{ optional(optional($item->tempat)->industri)->nama_industri ?? '-' }}</td>
                             <td>{{ $item->jam_mulai }}</td>
                             <td>{{ $item->jam_selesai }}</td>
                             <td>{{ $item->kegiatan }}</td>

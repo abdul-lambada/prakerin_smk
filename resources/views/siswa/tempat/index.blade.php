@@ -19,7 +19,6 @@
             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                 <thead>
                     <tr>
-                        <th>Kode Tempat</th>
                         <th>Industri</th>
                         <th>Pembimbing</th>
                         <th>Tanggal Mulai</th>
@@ -30,8 +29,7 @@
                 <tbody>
                     @foreach($tempats as $item)
                         <tr>
-                            <td>{{ $item->kd_tempat }}</td>
-                            <td>{{ optional($item->industri)->nama_industri }}</td>
+                            <td>{{ optional($item->industri)->nama_industri ?? '-' }}</td>
                             <td>{{ optional(optional($item->pembimbing)->user)->name }}</td>
                             <td>{{ optional($item->tanggal)->format('d-m-Y') }}</td>
                             <td>{{ $item->tahun }}</td>

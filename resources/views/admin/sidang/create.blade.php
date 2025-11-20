@@ -28,7 +28,7 @@
             <div class="form-group">
                 <label>Tempat</label>
                 <select name="kd_tempat" class="form-control @error('kd_tempat') is-invalid @enderror" required>
-                    <option value="">-- Pilih Tempat --</option>
+                    <option value="">-- Pilih Kode Tempat --</option>
                     @foreach($tempats as $t)
                         <option value="{{ $t->kd_tempat }}" {{ old('kd_tempat') == $t->kd_tempat ? 'selected' : '' }}>
                             {{ $t->kd_tempat }}

@@ -40,7 +40,7 @@
                 <thead>
                     <tr>
                         <th>Siswa</th>
-                        <th>Tempat</th>
+                        <th>Kode Tempat</th>
                         <th>Industri</th>
                         <th>Judul</th>
                         <th>Lampiran</th>
