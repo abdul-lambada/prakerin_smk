@@ -3,7 +3,15 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>@yield('title', 'Login')</title>
+    @php
+        $appName = \App\Models\Setting::get('app_name', 'PKL SMK');
+        $appLogo = \App\Models\Setting::get('app_logo');
+    @endphp
+    <title>@yield('title', $appName)</title>
+
+    @if($appLogo)
+        <link rel="icon" type="image/png" href="{{ asset($appLogo) }}">
+    @endif
 
     <!-- Fonts & styles dari SB Admin 2 -->
     <link href="{{ asset('sb-admin-2/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">

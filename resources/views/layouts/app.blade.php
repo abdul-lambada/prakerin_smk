@@ -3,7 +3,15 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>@yield('title', 'Dashboard')</title>
+    @php
+        $appName = \App\Models\Setting::get('app_name', 'PKL SMK');
+        $appLogo = \App\Models\Setting::get('app_logo');
+    @endphp
+    <title>@yield('title', $appName)</title>
+
+    @if($appLogo)
+        <link rel="icon" type="image/png" href="{{ asset($appLogo) }}">
+    @endif
 
     <!-- Custom fonts and styles for this template-->
     <link href="{{ asset('sb-admin-2/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
@@ -61,6 +69,12 @@
                     <a class="nav-link" href="{{ route('admin.user.index') }}">
                         <i class="fas fa-user-tie fa-fw"></i>
                         <span>Data User</span>
+                    </a>
+                </li>
+                <li class="nav-item {{ request()->routeIs('admin.settings.*') ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ route('admin.settings.index') }}">
+                        <i class="fas fa-cog fa-fw"></i>
+                        <span>Pengaturan</span>
                     </a>
                 </li>
                 <li class="nav-item {{ request()->routeIs('admin.industri.*') ? 'active' : '' }}">
@@ -296,6 +310,27 @@
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
+                    @php
+                        $appName = \App\Models\Setting::get('app_name', 'PKL SMK');
+                        $appShortName = \App\Models\Setting::get('app_short_name', 'PKL SMK');
+                        $appLogo = \App\Models\Setting::get('app_logo');
+                        $schoolName = \App\Models\Setting::get('school_name');
+                        $maintenanceMode = \App\Models\Setting::get('maintenance_mode', '0') === '1';
+                        $maintenanceMessage = \App\Models\Setting::get('maintenance_message');
+                        $dashboardInfoBanner = \App\Models\Setting::get('dashboard_info_banner');
+                    @endphp
+                    @if($maintenanceMode && $maintenanceMessage)
+                        <div class="alert alert-warning mb-3">
+                            {!! nl2br(e($maintenanceMessage)) !!}
+                        </div>
+                    @endif
+
+                    @if($dashboardInfoBanner)
+                        <div class="alert alert-info mb-3">
+                            {!! nl2br(e($dashboardInfoBanner)) !!}
+                        </div>
+                    @endif
+
                     @yield('content')
                 </div>
                 <!-- /.container-fluid -->
@@ -307,7 +342,9 @@
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; PKL SMK {{ date('Y') }}</span>
+                        <span>
+                            &copy; {{ $schoolName ?: $appName }} {{ date('Y') }}
+                        </span>
                     </div>
                 </div>
             </footer>

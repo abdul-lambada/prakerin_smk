@@ -13,6 +13,7 @@ use App\Http\Controllers\Admin\SidangController as AdminSidangController;
 use App\Http\Controllers\Admin\AbsensiController as AdminAbsensiController;
 use App\Http\Controllers\Admin\JurnalController as AdminJurnalController;
 use App\Http\Controllers\Admin\LaporanController as AdminLaporanController;
+use App\Http\Controllers\Admin\SettingController as AdminSettingController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PembimbingSiswaController;
@@ -85,6 +86,8 @@ Route::middleware('auth')->group(function () {
         Route::resource('admin/absensi', AdminAbsensiController::class)->names('admin.absensi');
         Route::resource('admin/jurnal', AdminJurnalController::class)->names('admin.jurnal');
         Route::resource('admin/laporan', AdminLaporanController::class)->names('admin.laporan');
+        Route::get('admin/settings', [AdminSettingController::class, 'index'])->name('admin.settings.index');
+        Route::put('admin/settings', [AdminSettingController::class, 'update'])->name('admin.settings.update');
     });
 
     Route::middleware('role:pembimbing')->group(function () {
