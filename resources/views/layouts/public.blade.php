@@ -99,7 +99,11 @@
     <footer class="border-t border-slate-200 bg-white mt-10">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-2">
             <div>
-                &copy; {{ date('Y') }} {{ $settings['school_name'] ?? 'SMK' }} - Sistem Informasi Prakerin.
+                <div>&copy; {{ date('Y') }} {{ $settings['school_name'] ?? 'SMK' }} - Sistem Informasi Prakerin.</div>
+                <div class="mt-1 text-[11px]">
+                    Powered by
+                    <a href="https://syntaxtrust.akarsekawan.my.id/" target="_blank" rel="noopener" class="text-primary hover:underline">SyntaxTrust</a>
+                </div>
             </div>
             <div class="flex items-center gap-3">
                 <span>{{ $settings['school_city'] ?? '' }}</span>

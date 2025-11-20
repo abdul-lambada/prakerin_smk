@@ -413,6 +413,9 @@
                         <span>
                             &copy; {{ $schoolName ?: $appName }} {{ date('Y') }}
                         </span>
+                        <span class="d-block small text-muted mt-1">
+                            Powered by <a href="https://syntaxtrust.akarsekawan.my.id/" target="_blank" rel="noopener">SyntaxTrust</a>
+                        </span>
                     </div>
                 </div>
             </footer>
