@@ -67,6 +67,21 @@
                 @enderror
             </div>
 
+            <div class="form-group">
+                <label>Akun DUDI (opsional)</label>
+                <select name="user_id" class="form-control @error('user_id') is-invalid @enderror">
+                    <option value="">-- Tidak ada akun DUDI --</option>
+                    @foreach($dudis as $user)
+                        <option value="{{ $user->id }}" {{ old('user_id', $industri->user_id) == $user->id ? 'selected' : '' }}>
+                            {{ $user->name }} ({{ $user->username }})
+                        </option>
+                    @endforeach
+                </select>
+                @error('user_id')
+                    <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
+                @enderror
+            </div>
+
             <a href="{{ route('admin.industri.index') }}" class="btn btn-secondary">Kembali</a>
             <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
         </form>

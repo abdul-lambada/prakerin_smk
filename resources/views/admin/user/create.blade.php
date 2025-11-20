@@ -41,6 +41,7 @@
                     <option value="admin" {{ old('role') == 'admin' ? 'selected' : '' }}>Admin</option>
                     <option value="pembimbing" {{ old('role') == 'pembimbing' ? 'selected' : '' }}>Pembimbing</option>
                     <option value="siswa" {{ old('role') == 'siswa' ? 'selected' : '' }}>Siswa</option>
+                    <option value="dudi" {{ old('role') == 'dudi' ? 'selected' : '' }}>DUDI</option>
                 </select>
                 @error('role')
                     <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>

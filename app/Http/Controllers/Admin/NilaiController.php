@@ -24,10 +24,21 @@ class NilaiController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'kd_tempat' => 'required|exists:tbl_tempat,kd_tempat',
-            'nilai'     => 'required|numeric|min:0|max:100',
-            'keterangan'=> 'nullable|string|max:50',
+            'kd_tempat'   => 'required|exists:tbl_tempat,kd_tempat',
+            'nilai_du_di' => 'nullable|numeric|min:0|max:100',
+            'nilai_sidang'=> 'nullable|numeric|min:0|max:100',
+            'bobot_du_di' => 'required|integer|min:0|max:100',
+            'bobot_sidang'=> 'required|integer|min:0|max:100',
+            'keterangan'  => 'nullable|string|max:50',
         ]);
+
+        if (($data['bobot_du_di'] + $data['bobot_sidang']) !== 100) {
+            return back()
+                ->withErrors(['bobot_du_di' => 'Jumlah bobot DU/DI dan Sidang harus 100%.'])
+                ->withInput();
+        }
+
+        $this->hitungNilaiAkhirDanPredikat($data);
 
         Nilai::create($data);
 
@@ -43,10 +54,27 @@ class NilaiController extends Controller
     public function update(Request $request, Nilai $nilai)
     {
         $data = $request->validate([
-            'kd_tempat' => 'required|exists:tbl_tempat,kd_tempat',
-            'nilai'     => 'required|numeric|min:0|max:100',
-            'keterangan'=> 'nullable|string|max:50',
+            'kd_tempat'   => 'required|exists:tbl_tempat,kd_tempat',
+            'nilai_du_di' => 'nullable|numeric|min:0|max:100',
+            'nilai_sidang'=> 'nullable|numeric|min:0|max:100',
+            'bobot_du_di' => 'required|integer|min:0|max:100',
+            'bobot_sidang'=> 'required|integer|min:0|max:100',
+            'keterangan'  => 'nullable|string|max:50',
         ]);
+
+        if (($data['bobot_du_di'] + $data['bobot_sidang']) !== 100) {
+            return back()
+                ->withErrors(['bobot_du_di' => 'Jumlah bobot DU/DI dan Sidang harus 100%.'])
+                ->withInput();
+        }
+
+        // Kunci nilai DU/DI: jika sudah ada di database (diisi DUDI),
+        // jangan izinkan perubahan lewat form admin.
+        if ($nilai->nilai_du_di !== null) {
+            $data['nilai_du_di'] = $nilai->nilai_du_di;
+        }
+
+        $this->hitungNilaiAkhirDanPredikat($data);
 
         $nilai->update($data);
 
@@ -58,5 +86,41 @@ class NilaiController extends Controller
         $nilai->delete();
 
         return redirect()->route('admin.nilai.index')->with('status', 'Nilai PKL berhasil dihapus.');
+    }
+
+    private function hitungNilaiAkhirDanPredikat(array &$data): void
+    {
+        $nilaiDuDi   = $data['nilai_du_di']   ?? null;
+        $nilaiSidang = $data['nilai_sidang'] ?? null;
+
+        if ($nilaiDuDi !== null && $nilaiSidang !== null) {
+            $akhir = round(
+                ($nilaiDuDi   * $data['bobot_du_di']   / 100) +
+                ($nilaiSidang * $data['bobot_sidang'] / 100),
+                2
+            );
+            $data['nilai_akhir'] = $akhir;
+            $data['predikat']    = $this->predikatDariNilai($akhir);
+            // sinkronkan kolom lama "nilai" sebagai total
+            $data['nilai']       = $akhir;
+        } else {
+            $data['nilai_akhir'] = null;
+            $data['predikat']    = null;
+            $data['nilai']       = $data['nilai_du_di'] ?? $data['nilai_sidang'] ?? null;
+        }
+    }
+
+    private function predikatDariNilai(float $nilai): string
+    {
+        if ($nilai >= 85) {
+            return 'A';
+        }
+        if ($nilai >= 75) {
+            return 'B';
+        }
+        if ($nilai >= 65) {
+            return 'C';
+        }
+        return 'D';
     }
 }

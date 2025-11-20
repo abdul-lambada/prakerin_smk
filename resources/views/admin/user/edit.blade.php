@@ -41,6 +41,7 @@
                     <option value="admin" {{ old('role', $user->role) == 'admin' ? 'selected' : '' }}>Admin</option>
                     <option value="pembimbing" {{ old('role', $user->role) == 'pembimbing' ? 'selected' : '' }}>Pembimbing</option>
                     <option value="siswa" {{ old('role', $user->role) == 'siswa' ? 'selected' : '' }}>Siswa</option>
+                    <option value="dudi" {{ old('role', $user->role) == 'dudi' ? 'selected' : '' }}>DUDI</option>
                 </select>
                 @error('role')
                     <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>

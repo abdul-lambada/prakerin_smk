@@ -27,11 +27,43 @@
             </div>
 
             <div class="form-group">
-                <label>Nilai (0-100)</label>
-                <input type="number" name="nilai" value="{{ old('nilai', $nilai->nilai) }}" class="form-control @error('nilai') is-invalid @enderror" min="0" max="100" required>
-                @error('nilai')
+                <label>Nilai DU/DI (0-100)</label>
+                <input type="number" name="nilai_du_di" value="{{ old('nilai_du_di', $nilai->nilai_du_di) }}" class="form-control @error('nilai_du_di') is-invalid @enderror" min="0" max="100" step="0.01">
+                <small class="form-text text-muted">
+                    Nilai dari DU/DI. Biasanya diisi oleh akun DUDI.
+                    @if($nilai->nilai_du_di !== null)
+                        <strong>(Terkunci)</strong> &mdash; nilai ini sudah diisi oleh DUDI dan tidak dapat diubah dari menu admin.
+                    @endif
+                </small>
+                @error('nilai_du_di')
                     <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
                 @enderror
+            </div>
+
+            <div class="form-group">
+                <label>Nilai Sidang (0-100)</label>
+                <input type="number" name="nilai_sidang" value="{{ old('nilai_sidang', $nilai->nilai_sidang) }}" class="form-control @error('nilai_sidang') is-invalid @enderror" min="0" max="100" step="0.01">
+                @error('nilai_sidang')
+                    <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
+                @enderror
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label>Bobot DU/DI (%)</label>
+                    <input type="number" name="bobot_du_di" value="{{ old('bobot_du_di', $nilai->bobot_du_di) }}" class="form-control @error('bobot_du_di') is-invalid @enderror" min="0" max="100" required>
+                    @error('bobot_du_di')
+                        <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
+                    @enderror
+                </div>
+                <div class="form-group col-md-6">
+                    <label>Bobot Sidang (%)</label>
+                    <input type="number" name="bobot_sidang" value="{{ old('bobot_sidang', $nilai->bobot_sidang) }}" class="form-control @error('bobot_sidang') is-invalid @enderror" min="0" max="100" required>
+                    <small class="form-text text-muted">Jumlah bobot DU/DI + Sidang harus 100.</small>
+                    @error('bobot_sidang')
+                        <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
+                    @enderror
+                </div>
             </div>
 
             <div class="form-group">

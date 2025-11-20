@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Industri;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class IndustriController extends Controller
@@ -16,7 +17,9 @@ class IndustriController extends Controller
 
     public function create()
     {
-        return view('admin.industri.create');
+        $dudis = User::where('role', 'dudi')->orderBy('name')->get();
+
+        return view('admin.industri.create', compact('dudis'));
     }
 
     public function store(Request $request)
@@ -29,6 +32,7 @@ class IndustriController extends Controller
             'wilayah'         => 'required|string|max:50',
             'telepon'         => 'required|string|max:20',
             'kuota'           => 'required|integer',
+            'user_id'         => 'nullable|exists:users,id',
         ]);
 
         Industri::create($data + ['foto' => $request->input('foto', '')]);
@@ -38,7 +42,9 @@ class IndustriController extends Controller
 
     public function edit(Industri $industri)
     {
-        return view('admin.industri.edit', compact('industri'));
+        $dudis = User::where('role', 'dudi')->orderBy('name')->get();
+
+        return view('admin.industri.edit', compact('industri', 'dudis'));
     }
 
     public function update(Request $request, Industri $industri)
@@ -51,6 +57,7 @@ class IndustriController extends Controller
             'wilayah'         => 'required|string|max:50',
             'telepon'         => 'required|string|max:20',
             'kuota'           => 'required|integer',
+            'user_id'         => 'nullable|exists:users,id',
         ]);
 
         $industri->update($data);

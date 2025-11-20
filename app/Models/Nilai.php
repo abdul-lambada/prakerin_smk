@@ -15,8 +15,14 @@ class Nilai extends Model
 
     protected $fillable = [
         'kd_tempat',
+        'nilai',        // nilai lama (opsional, bisa dipakai sebagai total sederhana)
+        'nilai_du_di',
+        'nilai_sidang',
+        'bobot_du_di',
+        'bobot_sidang',
+        'nilai_akhir',
+        'predikat',
         'keterangan',
-        'nilai',
     ];
 
     public function tempat()

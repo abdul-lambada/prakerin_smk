@@ -26,7 +26,7 @@ class UserController extends Controller
             'name'      => 'required|string|max:100',
             'username'  => 'required|string|max:50|unique:users,username',
             'identitas' => 'nullable|string|max:100',
-            'role'      => 'required|in:admin,pembimbing,siswa',
+            'role'      => 'required|in:admin,pembimbing,siswa,dudi',
             'password'  => 'required|string|min:6',
         ]);
 
@@ -48,7 +48,7 @@ class UserController extends Controller
             'name'      => 'required|string|max:100',
             'username'  => 'required|string|max:50|unique:users,username,' . $user->id,
             'identitas' => 'nullable|string|max:100',
-            'role'      => 'required|in:admin,pembimbing,siswa',
+            'role'      => 'required|in:admin,pembimbing,siswa,dudi',
             'password'  => 'nullable|string|min:6',
         ]);
 

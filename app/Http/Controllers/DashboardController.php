@@ -12,6 +12,8 @@ use App\Models\Jurnal;
 use App\Models\Laporan;
 use App\Models\Info;
 use App\Models\Bimbingan;
+use App\Models\Nilai;
+use App\Models\ChatDudiPembimbing;
 
 class DashboardController extends Controller
 {
@@ -27,6 +29,7 @@ class DashboardController extends Controller
             'admin'      => redirect()->route('dashboard.admin'),
             'pembimbing' => redirect()->route('dashboard.pembimbing'),
             'siswa'      => redirect()->route('dashboard.siswa'),
+            'dudi'       => redirect()->route('dashboard.dudi'),
             default      => abort(403, 'Role tidak dikenali'),
         };
     }
@@ -105,6 +108,11 @@ class DashboardController extends Controller
             ->where('is_read_pembimbing', false)
             ->count();
 
+        // Pesan chat dari DUDI yang belum dibaca pembimbing
+        $unread_chat_dudi = ChatDudiPembimbing::where('to_user_id', $user->id)
+            ->where('is_read_pembimbing', false)
+            ->count();
+
         $latest_infos = Info::orderBy('tanggal', 'desc')->limit(5)->get();
 
         return view('dashboard.pembimbing', [
@@ -114,6 +122,7 @@ class DashboardController extends Controller
             'jurnal_hari_ini'       => $jurnal_hari_ini,
             'total_laporan'         => $total_laporan,
             'unread_bimbingan'      => $unread_bimbingan,
+            'unread_chat_dudi'      => $unread_chat_dudi,
             'latest_infos'          => $latest_infos,
         ]);
     }
@@ -159,6 +168,46 @@ class DashboardController extends Controller
             'total_laporan_saya'     => $total_laporan_saya,
             'unread_bimbingan_saya'  => $unread_bimbingan_saya,
             'latest_infos'           => $latest_infos,
+        ]);
+    }
+
+    public function dudi()
+    {
+        $user = Auth::user();
+
+        // Cari industri yang terhubung ke akun DUDI ini (jika ada)
+        $industri = Industri::where('user_id', $user->id)->first();
+
+        $total_siswa_pkl      = 0;
+        $total_nilai_du_di    = 0;
+        $total_belum_dinilai  = 0;
+
+        if ($industri) {
+            $tempatQuery = Tempat::where('kd_industri', $industri->kd_industri);
+            $total_siswa_pkl = $tempatQuery->count();
+
+            $kdTempatList = $tempatQuery->pluck('kd_tempat');
+
+            if ($kdTempatList->isNotEmpty()) {
+                $total_nilai_du_di = Nilai::whereIn('kd_tempat', $kdTempatList)
+                    ->whereNotNull('nilai_du_di')
+                    ->count();
+            }
+
+            $total_belum_dinilai = max($total_siswa_pkl - $total_nilai_du_di, 0);
+        }
+
+        // Pesan chat dari pembimbing yang belum dibaca DUDI
+        $unread_chat_pembimbing = ChatDudiPembimbing::where('to_user_id', $user->id)
+            ->where('is_read_dudi', false)
+            ->count();
+
+        return view('dashboard.dudi', [
+            'industri'             => $industri,
+            'total_siswa_pkl'      => $total_siswa_pkl,
+            'total_nilai_du_di'    => $total_nilai_du_di,
+            'total_belum_dinilai'  => $total_belum_dinilai,
+            'unread_chat_pembimbing' => $unread_chat_pembimbing,
         ]);
     }
 }

@@ -21,12 +21,16 @@ use App\Http\Controllers\PembimbingNilaiController;
 use App\Http\Controllers\PembimbingLaporanSidangController;
 use App\Http\Controllers\PembimbingInfoController;
 use App\Http\Controllers\PembimbingBimbinganController;
+use App\Http\Controllers\PembimbingChatDudiController;
 use App\Http\Controllers\SiswaTempatController;
 use App\Http\Controllers\SiswaAbsensiController;
 use App\Http\Controllers\SiswaJurnalController;
 use App\Http\Controllers\SiswaLaporanController;
 use App\Http\Controllers\SiswaBimbinganController;
 use App\Http\Controllers\SiswaInfoController;
+use App\Http\Controllers\DudiSiswaController;
+use App\Http\Controllers\DudiNilaiController;
+use App\Http\Controllers\DudiChatController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -42,6 +46,14 @@ Route::get('/login', function () {
 
 Route::get('/login/admin', [AuthController::class, 'showAdminLoginForm'])->name('login.admin');
 Route::post('/login/admin', [AuthController::class, 'loginAdmin'])->name('login.admin.submit');
+
+// Halaman login DUDI (menggunakan handler yang sama dengan login admin/pembimbing)
+Route::get('/login/dudi', [AuthController::class, 'showDudiLoginForm'])->name('login.dudi');
+Route::post('/login/dudi', [AuthController::class, 'loginAdmin'])->name('login.dudi.submit');
+
+// Registrasi DUDI
+Route::get('/register/dudi', [AuthController::class, 'showDudiRegisterForm'])->name('register.dudi');
+Route::post('/register/dudi', [AuthController::class, 'registerDudi'])->name('register.dudi.submit');
 
 // Halaman login siswa
 Route::get('/login/siswa', [AuthController::class, 'showSiswaLoginForm'])->name('login.siswa');
@@ -83,6 +95,9 @@ Route::middleware('auth')->group(function () {
         Route::get('/pembimbing/nilai/{tempat}', [PembimbingNilaiController::class, 'edit'])->name('pembimbing.nilai.edit');
         Route::post('/pembimbing/nilai/{tempat}', [PembimbingNilaiController::class, 'save'])->name('pembimbing.nilai.save');
         Route::get('/pembimbing/laporan-sidang', [PembimbingLaporanSidangController::class, 'index'])->name('pembimbing.laporan-sidang.index');
+        Route::get('/pembimbing/chat-dudi', [PembimbingChatDudiController::class, 'index'])->name('pembimbing.chat-dudi.index');
+        Route::get('/pembimbing/chat-dudi/{dudi}', [PembimbingChatDudiController::class, 'show'])->name('pembimbing.chat-dudi.show');
+        Route::post('/pembimbing/chat-dudi/{dudi}', [PembimbingChatDudiController::class, 'store'])->name('pembimbing.chat-dudi.store');
         Route::get('/pembimbing/info', [PembimbingInfoController::class, 'index'])->name('pembimbing.info.index');
         Route::get('/pembimbing/bimbingan/{tempat}', [PembimbingBimbinganController::class, 'show'])->name('pembimbing.bimbingan.show');
         Route::post('/pembimbing/bimbingan/{tempat}', [PembimbingBimbinganController::class, 'store'])->name('pembimbing.bimbingan.store');
@@ -104,5 +119,14 @@ Route::middleware('auth')->group(function () {
         Route::get('/siswa/bimbingan/{tempat}', [SiswaBimbinganController::class, 'show'])->name('siswa.bimbingan.show');
         Route::post('/siswa/bimbingan/{tempat}', [SiswaBimbinganController::class, 'store'])->name('siswa.bimbingan.store');
         Route::get('/siswa/info', [SiswaInfoController::class, 'index'])->name('siswa.info.index');
+    });
+
+    Route::middleware('role:dudi')->group(function () {
+        Route::get('/dashboard/dudi', [DashboardController::class, 'dudi'])->name('dashboard.dudi');
+        Route::get('/dudi/siswa-pkl', [DudiSiswaController::class, 'index'])->name('dudi.siswa.index');
+        Route::get('/dudi/nilai/{tempat}', [DudiNilaiController::class, 'edit'])->name('dudi.nilai.edit');
+        Route::post('/dudi/nilai/{tempat}', [DudiNilaiController::class, 'update'])->name('dudi.nilai.update');
+        Route::get('/dudi/chat', [DudiChatController::class, 'index'])->name('dudi.chat.index');
+        Route::post('/dudi/chat', [DudiChatController::class, 'store'])->name('dudi.chat.store');
     });
 });

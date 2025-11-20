@@ -32,7 +32,11 @@
                     <tr>
                         <th>Tempat</th>
                         <th>Siswa</th>
-                        <th>Nilai</th>
+                        <th>Nilai DU/DI</th>
+                        <th>Nilai Sidang</th>
+                        <th>Bobot (DU/DI - Sidang)</th>
+                        <th>Nilai Akhir</th>
+                        <th>Predikat</th>
                         <th>Keterangan</th>
                         <th>Aksi</th>
                     </tr>
@@ -42,7 +46,11 @@
                         <tr>
                             <td>{{ optional($item->tempat)->kd_tempat }}</td>
                             <td>{{ optional(optional($item->tempat)->siswa)->nama_lengkap }}</td>
-                            <td>{{ $item->nilai }}</td>
+                            <td>{{ $item->nilai_du_di }}</td>
+                            <td>{{ $item->nilai_sidang }}</td>
+                            <td>{{ $item->bobot_du_di }}% - {{ $item->bobot_sidang }}%</td>
+                            <td>{{ $item->nilai_akhir }}</td>
+                            <td>{{ $item->predikat }}</td>
                             <td>{{ $item->keterangan }}</td>
                             <td class="text-nowrap">
                                 <a href="{{ route('admin.nilai.edit', $item) }}" class="btn btn-sm btn-warning">

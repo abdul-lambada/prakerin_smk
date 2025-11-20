@@ -22,10 +22,16 @@ class Industri extends Model
         'telepon',
         'kuota',
         'foto',
+        'user_id',
     ];
 
     public function tempat()
     {
         return $this->hasMany(Tempat::class, 'kd_industri', 'kd_industri');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
     }
 }

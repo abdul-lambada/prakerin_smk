@@ -17,7 +17,9 @@
     <div id="wrapper">
 
         <!-- Sidebar -->
-        @php($role = auth()->user()->role ?? null)
+        @php
+            $role = auth()->user()->role ?? null;
+        @endphp
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
@@ -38,7 +40,8 @@
                 </a>
             </li>
 
-            @if($role === 'admin')
+            {{-- Admin menu --}}
+            @if ($role === 'admin')
                 <hr class="sidebar-divider">
                 <div class="sidebar-heading">Manajemen</div>
 
@@ -100,7 +103,10 @@
                         <span>Info / Pengumuman</span>
                     </a>
                 </li>
-            @elseif($role === 'pembimbing')
+            @endif
+
+            {{-- Pembimbing menu --}}
+            @if ($role === 'pembimbing')
                 <hr class="sidebar-divider">
                 <div class="sidebar-heading">Pembimbing</div>
 
@@ -122,13 +128,34 @@
                         <span>Laporan &amp; Sidang</span>
                     </a>
                 </li>
+
+                @php
+                    $sidebarUnreadChatDudi = \App\Models\ChatDudiPembimbing::where('to_user_id', auth()->id())
+                        ->where('is_read_pembimbing', false)
+                        ->count();
+                @endphp
+
+                <li class="nav-item {{ request()->routeIs('pembimbing.chat-dudi.*') ? 'active' : '' }}">
+                    <a class="nav-link d-flex justify-content-between align-items-center" href="{{ route('pembimbing.chat-dudi.index') }}">
+                        <span>
+                            <i class="fas fa-comments fa-fw"></i>
+                            <span>Chat DUDI</span>
+                        </span>
+                        @if ($sidebarUnreadChatDudi > 0)
+                            <span class="badge badge-danger badge-pill">{{ $sidebarUnreadChatDudi }}</span>
+                        @endif
+                    </a>
+                </li>
                 <li class="nav-item {{ request()->routeIs('pembimbing.info.*') ? 'active' : '' }}">
                     <a class="nav-link" href="{{ route('pembimbing.info.index') }}">
                         <i class="fas fa-bullhorn fa-fw"></i>
                         <span>Info / Pengumuman</span>
                     </a>
                 </li>
-            @elseif($role === 'siswa')
+            @endif
+
+            {{-- Siswa menu --}}
+            @if ($role === 'siswa')
                 <hr class="sidebar-divider">
                 <div class="sidebar-heading">Siswa</div>
 
@@ -166,6 +193,43 @@
                     <a class="nav-link" href="{{ route('siswa.info.index') }}">
                         <i class="fas fa-bullhorn fa-fw"></i>
                         <span>Info / Pengumuman</span>
+                    </a>
+                </li>
+            @endif
+
+            {{-- DUDI menu --}}
+            @if ($role === 'dudi')
+                <hr class="sidebar-divider">
+                <div class="sidebar-heading">DUDI</div>
+
+                <li class="nav-item {{ request()->routeIs('dashboard.dudi') ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ route('dashboard.dudi') }}">
+                        <i class="fas fa-clipboard-check fa-fw"></i>
+                        <span>Dashboard DUDI</span>
+                    </a>
+                </li>
+                <li class="nav-item {{ request()->routeIs('dudi.siswa.*') ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ route('dudi.siswa.index') }}">
+                        <i class="fas fa-user-graduate fa-fw"></i>
+                        <span>Siswa PKL</span>
+                    </a>
+                </li>
+
+                @php
+                    $sidebarUnreadChatPembimbing = \App\Models\ChatDudiPembimbing::where('to_user_id', auth()->id())
+                        ->where('is_read_dudi', false)
+                        ->count();
+                @endphp
+
+                <li class="nav-item {{ request()->routeIs('dudi.chat.*') ? 'active' : '' }}">
+                    <a class="nav-link d-flex justify-content-between align-items-center" href="{{ route('dudi.chat.index') }}">
+                        <span>
+                            <i class="fas fa-comments fa-fw"></i>
+                            <span>Chat Pembimbing</span>
+                        </span>
+                        @if ($sidebarUnreadChatPembimbing > 0)
+                            <span class="badge badge-danger badge-pill">{{ $sidebarUnreadChatPembimbing }}</span>
+                        @endif
                     </a>
                 </li>
             @endif
