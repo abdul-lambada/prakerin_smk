@@ -11,13 +11,18 @@
   });
 
   // Close any open menu accordions when window is resized below 768px
+  var lastWidth = $(window).width();
   $(window).resize(function() {
-    if ($(window).width() < 768) {
+    var currentWidth = $(window).width();
+    if (currentWidth === lastWidth) return;
+    lastWidth = currentWidth;
+
+    if (currentWidth < 768) {
       $('.sidebar .collapse').collapse('hide');
     };
-    
+
     // Toggle the side navigation when window is resized below 480px
-    if ($(window).width() < 480 && !$(".sidebar").hasClass("toggled")) {
+    if (currentWidth < 480 && !$(".sidebar").hasClass("toggled")) {
       $("body").addClass("sidebar-toggled");
       $(".sidebar").addClass("toggled");
       $('.sidebar .collapse').collapse('hide');

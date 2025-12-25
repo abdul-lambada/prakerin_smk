@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -10,7 +11,7 @@
     @endphp
     <title>@yield('title', $appName)</title>
 
-    @if($appLogo)
+    @if ($appLogo)
         <link rel="icon" type="image/png" href="{{ asset($appLogo) }}">
     @endif
 
@@ -49,6 +50,7 @@
 
     @stack('styles')
 </head>
+
 <body id="page-top">
 
     <!-- Page Wrapper -->
@@ -58,11 +60,11 @@
         @php
             $role = auth()->user()->role ?? null;
             $dashboardRouteName = match ($role) {
-                'admin'      => 'dashboard.admin',
+                'admin' => 'dashboard.admin',
                 'pembimbing' => 'dashboard.pembimbing',
-                'siswa'      => 'dashboard.siswa',
-                'dudi'       => 'dashboard.dudi',
-                default      => 'dashboard.index',
+                'siswa' => 'dashboard.siswa',
+                'dudi' => 'dashboard.dudi',
+                default => 'dashboard.index',
             };
             $isDashboardActive = request()->routeIs($dashboardRouteName);
         @endphp
@@ -75,10 +77,12 @@
                 $appLogo = \App\Models\Setting::get('app_logo');
                 $brandText = $appShortName ?: $appName;
             @endphp
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ route('dashboard.index') }}">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center"
+                href="{{ route('dashboard.index') }}">
                 <div class="sidebar-brand-icon d-flex align-items-center justify-content-center">
-                    @if($appLogo)
-                        <img src="{{ asset($appLogo) }}" alt="Logo" style="height:24px; max-width:120px; object-fit:contain;">
+                    @if ($appLogo)
+                        <img src="{{ asset($appLogo) }}" alt="Logo"
+                            style="height:24px; max-width:120px; object-fit:contain;">
                     @else
                         <i class="fas fa-laugh-wink"></i>
                     @endif
@@ -131,7 +135,8 @@
                         <span>Data Industri</span>
                     </a>
                 </li>
-                <li class="nav-item {{ request()->routeIs('admin.jurusan.*') || request()->routeIs('admin.kelas.*') ? 'active' : '' }}">
+                <li
+                    class="nav-item {{ request()->routeIs('admin.jurusan.*') || request()->routeIs('admin.kelas.*') ? 'active' : '' }}">
                     <a class="nav-link" href="{{ route('admin.jurusan.index') }}">
                         <i class="fas fa-school fa-fw"></i>
                         <span>Jurusan &amp; Kelas</span>
@@ -147,13 +152,15 @@
                         <span>Penempatan PKL</span>
                     </a>
                 </li>
-                <li class="nav-item {{ request()->routeIs('admin.nilai.*') || request()->routeIs('admin.sidang.*') ? 'active' : '' }}">
+                <li
+                    class="nav-item {{ request()->routeIs('admin.nilai.*') || request()->routeIs('admin.sidang.*') ? 'active' : '' }}">
                     <a class="nav-link" href="{{ route('admin.nilai.index') }}">
                         <i class="fas fa-clipboard-check fa-fw"></i>
                         <span>Nilai &amp; Sidang</span>
                     </a>
                 </li>
-                <li class="nav-item {{ request()->routeIs('admin.laporan.*') || request()->routeIs('admin.jurnal.*') || request()->routeIs('admin.absensi.*') ? 'active' : '' }}">
+                <li
+                    class="nav-item {{ request()->routeIs('admin.laporan.*') || request()->routeIs('admin.jurnal.*') || request()->routeIs('admin.absensi.*') ? 'active' : '' }}">
                     <a class="nav-link" href="{{ route('admin.laporan.index') }}">
                         <i class="fas fa-file-alt fa-fw"></i>
                         <span>Laporan Jurnal &amp; Absensi</span>
@@ -210,7 +217,8 @@
                 @endphp
 
                 <li class="nav-item {{ request()->routeIs('pembimbing.chat-dudi.*') ? 'active' : '' }}">
-                    <a class="nav-link d-flex justify-content-between align-items-center" href="{{ route('pembimbing.chat-dudi.index') }}">
+                    <a class="nav-link d-flex justify-content-between align-items-center"
+                        href="{{ route('pembimbing.chat-dudi.index') }}">
                         <span>
                             <i class="fas fa-comments fa-fw"></i>
                             <span>Chat DUDI</span>
@@ -296,7 +304,8 @@
                 @endphp
 
                 <li class="nav-item {{ request()->routeIs('dudi.chat.*') ? 'active' : '' }}">
-                    <a class="nav-link d-flex justify-content-between align-items-center" href="{{ route('dudi.chat.index') }}">
+                    <a class="nav-link d-flex justify-content-between align-items-center"
+                        href="{{ route('dudi.chat.index') }}">
                         <span>
                             <i class="fas fa-comments fa-fw"></i>
                             <span>Chat Pembimbing</span>
@@ -337,17 +346,21 @@
 
                         <!-- Nav Item - User Information -->
                         <li class="nav-item dropdown no-arrow">
-                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">
-                                    {{ auth()->user()->name ?? auth()->user()->username ?? 'User' }}
+                                    {{ auth()->user()->name ?? (auth()->user()->username ?? 'User') }}
                                 </span>
-                                @if(auth()->user()->foto)
-                                    <img src="{{ asset('storage/'.auth()->user()->foto) }}" class="img-profile rounded-circle" style="height: 32px; width: 32px; object-fit: cover;">
+                                @if (auth()->user()->foto)
+                                    <img src="{{ asset('storage/' . auth()->user()->foto) }}"
+                                        class="img-profile rounded-circle"
+                                        style="height: 32px; width: 32px; object-fit: cover;">
                                 @else
                                     <i class="fas fa-user-circle fa-lg text-gray-400"></i>
                                 @endif
                             </a>
-                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
+                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                aria-labelledby="userDropdown">
                                 <a class="dropdown-item" href="{{ route('profile.show') }}">
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Profile
@@ -379,13 +392,13 @@
                         $maintenanceMessage = \App\Models\Setting::get('maintenance_message');
                         $dashboardInfoBanner = \App\Models\Setting::get('dashboard_info_banner');
                     @endphp
-                    @if($maintenanceMode && $maintenanceMessage)
+                    @if ($maintenanceMode && $maintenanceMessage)
                         <div class="alert alert-warning mb-3">
                             {!! nl2br(e($maintenanceMessage)) !!}
                         </div>
                     @endif
 
-                    @if($dashboardInfoBanner)
+                    @if ($dashboardInfoBanner)
                         <div class="alert alert-info mb-3">
                             {!! nl2br(e($dashboardInfoBanner)) !!}
                         </div>
@@ -414,7 +427,8 @@
                             &copy; {{ $schoolName ?: $appName }} {{ date('Y') }}
                         </span>
                         <span class="d-block small text-muted mt-1">
-                            Powered by <a href="https://syntaxtrust.akarsekawan.my.id/" target="_blank" rel="noopener">SyntaxTrust</a>
+                            Powered by <a href="https://syntaxtrust.akarsekawan.my.id/" target="_blank"
+                                rel="noopener">SyntaxTrust</a>
                         </span>
                     </div>
                 </div>
@@ -430,11 +444,11 @@
     <script src="{{ asset('sb-admin-2/vendor/jquery/jquery.min.js') }}"></script>
     <script src="{{ asset('sb-admin-2/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('sb-admin-2/vendor/jquery-easing/jquery.easing.min.js') }}"></script>
-    <script src="{{ asset('sb-admin-2/js/sb-admin-2.min.js') }}"></script>
+    <script src="{{ asset('sb-admin-2/js/sb-admin-2.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
-        @if(session('status'))
+        @if (session('status'))
             Swal.fire({
                 toast: true,
                 position: 'top-end',
@@ -446,7 +460,7 @@
             });
         @endif
 
-        @if(session('error'))
+        @if (session('error'))
             Swal.fire({
                 toast: true,
                 position: 'top-end',
@@ -458,7 +472,7 @@
             });
         @endif
 
-        @if($errors->any())
+        @if ($errors->any())
             Swal.fire({
                 icon: 'error',
                 title: 'Terjadi kesalahan',
@@ -469,4 +483,5 @@
 
     @stack('scripts')
 </body>
+
 </html>
