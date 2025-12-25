@@ -47,25 +47,13 @@ Route::get('/info/{info}', [PublicController::class, 'showInfo'])->name('public.
 Route::get('/tentang-pkl', [PublicController::class, 'about'])->name('public.about');
 Route::get('/kontak', [PublicController::class, 'contact'])->name('public.contact');
 
-// Halaman login admin & pembimbing
-Route::get('/login', function () {
-    return redirect()->route('login.admin');
-})->name('login');
+// Auth Routes
+Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
+Route::post('/login', [AuthController::class, 'login'])->name('login.submit');
 
-Route::get('/login/admin', [AuthController::class, 'showAdminLoginForm'])->name('login.admin');
-Route::post('/login/admin', [AuthController::class, 'loginAdmin'])->name('login.admin.submit');
-
-// Halaman login DUDI (menggunakan handler yang sama dengan login admin/pembimbing)
-Route::get('/login/dudi', [AuthController::class, 'showDudiLoginForm'])->name('login.dudi');
-Route::post('/login/dudi', [AuthController::class, 'loginAdmin'])->name('login.dudi.submit');
-
-// Registrasi DUDI
+// DUDI Registration
 Route::get('/register/dudi', [AuthController::class, 'showDudiRegisterForm'])->name('register.dudi');
 Route::post('/register/dudi', [AuthController::class, 'registerDudi'])->name('register.dudi.submit');
-
-// Halaman login siswa
-Route::get('/login/siswa', [AuthController::class, 'showSiswaLoginForm'])->name('login.siswa');
-Route::post('/login/siswa', [AuthController::class, 'loginSiswa'])->name('login.siswa.submit');
 
 // Logout
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');

@@ -8,27 +8,15 @@ use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
-    public function showAdminLoginForm()
+    public function showLoginForm()
     {
-        return view('auth.login_admin');
+        if (Auth::check()) {
+            return redirect()->route('dashboard.index');
+        }
+        return view('auth.login');
     }
 
-    public function showDudiLoginForm()
-    {
-        return view('auth.login_dudi');
-    }
-
-    public function showDudiRegisterForm()
-    {
-        return view('auth.register_dudi');
-    }
-
-    public function showSiswaLoginForm()
-    {
-        return view('auth.login_siswa');
-    }
-
-    public function loginAdmin(Request $request)
+    public function login(Request $request)
     {
         $credentials = $request->validate([
             'username' => 'required|string',
@@ -37,17 +25,17 @@ class AuthController extends Controller
 
         if (Auth::attempt(['username' => $credentials['username'], 'password' => $credentials['password']])) {
             $request->session()->regenerate();
-
-            if (in_array(Auth::user()->role, ['admin', 'pembimbing', 'dudi'], true)) {
-                return redirect()->route('dashboard.index');
-            }
-
-            Auth::logout();
+            return redirect()->intended(route('dashboard.index'));
         }
 
         return back()->withErrors([
-            'username' => 'Username atau password salah, atau role tidak diizinkan.',
+            'username' => 'Username atau password salah.',
         ])->onlyInput('username');
+    }
+
+    public function showDudiRegisterForm()
+    {
+        return view('auth.register_dudi');
     }
 
     public function registerDudi(Request $request)
@@ -76,46 +64,13 @@ class AuthController extends Controller
         return redirect()->route('dashboard.index');
     }
 
-    public function loginSiswa(Request $request)
-    {
-        $credentials = $request->validate([
-            'username' => 'required|string',
-            'password' => 'required|string',
-        ]);
-
-        if (Auth::attempt(['username' => $credentials['username'], 'password' => $credentials['password']])) {
-            $request->session()->regenerate();
-
-            if (Auth::user()->role === 'siswa') {
-                return redirect()->route('dashboard.index');
-            }
-
-            Auth::logout();
-        }
-
-        return back()->withErrors([
-            'username' => 'Username atau password salah, atau role tidak diizinkan.',
-        ])->onlyInput('username');
-    }
-
     public function logout(Request $request)
     {
-        $role = Auth::check() ? Auth::user()->role : null;
-
         Auth::logout();
 
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        if ($role === 'siswa') {
-            return redirect()->route('login.siswa');
-        }
-
-        if ($role === 'dudi') {
-            return redirect()->route('login.dudi');
-        }
-
-        // default: admin & pembimbing atau role lain diarahkan ke login admin
-        return redirect()->route('login.admin');
+        return redirect()->route('login');
     }
 }
