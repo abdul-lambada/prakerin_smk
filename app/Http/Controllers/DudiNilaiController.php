@@ -15,7 +15,7 @@ class DudiNilaiController extends Controller
 
         // Pastikan tempat ini milik industri yang dipegang DUDI ini
         $industri = $tempat->industri;
-        if (! $industri || $industri->user_id !== $user->id) {
+        if (! $industri || (string)$industri->user_id !== (string)$user->id) {
             abort(403, 'Anda tidak berhak menilai siswa ini.');
         }
 
@@ -29,7 +29,7 @@ class DudiNilaiController extends Controller
         $user = Auth::user();
 
         $industri = $tempat->industri;
-        if (! $industri || $industri->user_id !== $user->id) {
+        if (! $industri || (string)$industri->user_id !== (string)$user->id) {
             abort(403, 'Anda tidak berhak menilai siswa ini.');
         }
 
