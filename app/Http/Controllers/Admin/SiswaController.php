@@ -176,23 +176,23 @@ class SiswaController extends Controller
 
     public function downloadTemplate()
     {
-        $spreadsheet = new Spreadsheet();
-        $sheet = $spreadsheet->getActiveSheet();
+        $fileName = 'template-import-siswa.csv';
 
-        // Header
-        $sheet->setCellValue('A1', 'nis_siswa');
-        $sheet->setCellValue('B1', 'nama_lengkap');
-        $sheet->setCellValue('C1', 'kd_kelas');
-        $sheet->setCellValue('D1', 'kd_pembimbing');
-        $sheet->setCellValue('E1', 'telp');
+        return response()->streamDownload(function () {
+            $handle = fopen('php://output', 'w');
 
-        $writer = new Xlsx($spreadsheet);
+            // Header
+            fputcsv($handle, [
+                'nis_siswa',
+                'nama_lengkap',
+                'kd_kelas',
+                'kd_pembimbing',
+                'telp'
+            ]);
 
-        $fileName = 'template-import-siswa.xlsx';
-        $temp_file = tempnam(sys_get_temp_dir(), $fileName);
-
-        $writer->save($temp_file);
-
-        return response()->download($temp_file, $fileName)->deleteFileAfterSend(true);
+            fclose($handle);
+        }, $fileName, [
+            'Content-Type' => 'text/csv',
+        ]);
     }
 }

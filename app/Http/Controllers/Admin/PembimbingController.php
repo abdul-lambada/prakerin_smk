@@ -168,22 +168,22 @@ class PembimbingController extends Controller
 
     public function downloadTemplate()
     {
-        $spreadsheet = new Spreadsheet();
-        $sheet = $spreadsheet->getActiveSheet();
+        $fileName = 'template-import-pembimbing.csv';
 
-        // Header
-        $sheet->setCellValue('A1', 'nip');
-        $sheet->setCellValue('B1', 'nama_lengkap');
-        $sheet->setCellValue('C1', 'kd_jurusan');
-        $sheet->setCellValue('D1', 'wilayah');
+        return response()->streamDownload(function () {
+            $handle = fopen('php://output', 'w');
 
-        $writer = new Xlsx($spreadsheet);
+            // Header
+            fputcsv($handle, [
+                'nip',
+                'nama_lengkap',
+                'kd_jurusan',
+                'wilayah'
+            ]);
 
-        $fileName = 'template-import-pembimbing.xlsx';
-        $temp_file = tempnam(sys_get_temp_dir(), $fileName);
-
-        $writer->save($temp_file);
-
-        return response()->download($temp_file, $fileName)->deleteFileAfterSend(true);
+            fclose($handle);
+        }, $fileName, [
+            'Content-Type' => 'text/csv',
+        ]);
     }
 }
