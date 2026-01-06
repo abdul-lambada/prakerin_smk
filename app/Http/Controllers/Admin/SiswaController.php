@@ -176,23 +176,16 @@ class SiswaController extends Controller
 
     public function downloadTemplate()
     {
-        $fileName = 'template-import-siswa.csv';
+        $columns = ['nis_siswa', 'nama_lengkap', 'kd_kelas', 'kd_pembimbing', 'telp'];
 
-        return response()->streamDownload(function () {
-            $handle = fopen('php://output', 'w');
+        $handle = fopen('php://temp', 'r+');
+        fputcsv($handle, $columns);
+        rewind($handle);
+        $content = stream_get_contents($handle);
+        fclose($handle);
 
-            // Header
-            fputcsv($handle, [
-                'nis_siswa',
-                'nama_lengkap',
-                'kd_kelas',
-                'kd_pembimbing',
-                'telp'
-            ]);
-
-            fclose($handle);
-        }, $fileName, [
-            'Content-Type' => 'text/csv',
-        ]);
+        return response($content)
+            ->header('Content-Type', 'text/csv')
+            ->header('Content-Disposition', 'attachment; filename="template-import-siswa.csv"');
     }
 }
