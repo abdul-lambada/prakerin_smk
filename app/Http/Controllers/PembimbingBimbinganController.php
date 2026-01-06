@@ -62,6 +62,8 @@ class PembimbingBimbinganController extends Controller
 
         if ($request->hasFile('file')) {
             $data['file'] = $request->file('file')->store('bimbingan', 'public');
+        } else {
+            $data['file'] = '';
         }
 
         Bimbingan::create($data);

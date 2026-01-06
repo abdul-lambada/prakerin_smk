@@ -79,6 +79,7 @@ class SiswaBimbinganController extends Controller
         ]);
 
         $data['kd_tempat']        = $tempat->kd_tempat;
+        $data['nip']              = $tempat->pembimbing->nip;
         $data['nis_siswa']        = $siswa->nis_siswa;
         $data['tanggal']          = now()->toDateString();
         $data['is_read_siswa']    = true;
@@ -86,6 +87,8 @@ class SiswaBimbinganController extends Controller
 
         if ($request->hasFile('file')) {
             $data['file'] = $request->file('file')->store('bimbingan', 'public');
+        } else {
+            $data['file'] = '';
         }
 
         Bimbingan::create($data);
