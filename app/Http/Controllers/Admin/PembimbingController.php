@@ -168,16 +168,11 @@ class PembimbingController extends Controller
 
     public function downloadTemplate()
     {
-        $columns = ['nip', 'nama_lengkap', 'kd_jurusan', 'wilayah'];
+        $content = "nip,nama_lengkap,kd_jurusan,wilayah\n";
 
-        $handle = fopen('php://temp', 'r+');
-        fputcsv($handle, $columns);
-        rewind($handle);
-        $content = stream_get_contents($handle);
-        fclose($handle);
-
-        return response($content)
-            ->header('Content-Type', 'text/csv')
-            ->header('Content-Disposition', 'attachment; filename="template-import-pembimbing.csv"');
+        return response($content, 200, [
+            'Content-Type' => 'text/csv',
+            'Content-Disposition' => 'attachment; filename="template-import-pembimbing.csv"',
+        ]);
     }
 }
