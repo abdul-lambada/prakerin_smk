@@ -38,7 +38,7 @@ class SiswaBimbinganController extends Controller
         $user = Auth::user();
         $siswa = Siswa::where('user_id', $user->id)->firstOrFail();
 
-        if ($tempat->nis_siswa !== $siswa->nis_siswa) {
+        if ((string)$tempat->nis_siswa !== (string)$siswa->nis_siswa) {
             abort(403);
         }
 
@@ -68,7 +68,7 @@ class SiswaBimbinganController extends Controller
         $user = Auth::user();
         $siswa = Siswa::where('user_id', $user->id)->firstOrFail();
 
-        if ($tempat->nis_siswa !== $siswa->nis_siswa) {
+        if ((string)$tempat->nis_siswa !== (string)$siswa->nis_siswa) {
             abort(403);
         }
 
