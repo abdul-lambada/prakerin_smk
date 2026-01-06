@@ -15,7 +15,7 @@ class PembimbingBimbinganController extends Controller
         $user = Auth::user();
         $pembimbing = Pembimbing::where('user_id', $user->id)->firstOrFail();
 
-        if ($tempat->kd_pembimbing !== $pembimbing->kd_pembimbing) {
+        if ((string)$tempat->kd_pembimbing !== (string)$pembimbing->kd_pembimbing) {
             abort(403);
         }
 
@@ -43,7 +43,7 @@ class PembimbingBimbinganController extends Controller
         $user = Auth::user();
         $pembimbing = Pembimbing::where('user_id', $user->id)->firstOrFail();
 
-        if ($tempat->kd_pembimbing !== $pembimbing->kd_pembimbing) {
+        if ((string)$tempat->kd_pembimbing !== (string)$pembimbing->kd_pembimbing) {
             abort(403);
         }
 
